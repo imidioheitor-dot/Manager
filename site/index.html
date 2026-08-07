@@ -2143,10 +2143,14 @@ $$("#nav a").forEach(a=>a.addEventListener("click",()=>{
    FOTOS — monta as vagas e some com o placeholder quando a imagem carrega
    ================================================================== */
 function renderPhotos(){
+  // O hero (0,1) e a tira do topo (20-22, movida do rodapé pra logo depois do
+  // hero) aparecem antes de qualquer scroll — carregam na hora. O resto da
+  // galeria (2-19) fica abaixo da dobra e pode esperar o scroll chegar perto.
+  const CEDO = new Set([0,1,20,21,22]);
   const mk=(i)=>{
     const ph=PHOTOS[i]; if(!ph) return "";
     return `<figure class="ph empty rv" data-i="${i}" style="margin:0">
-        <img alt="${esc(ph.cap)}" loading="${i<2?"eager":"lazy"}" data-src="${esc(ph.src)}">
+        <img alt="${esc(ph.cap)}" loading="${CEDO.has(i)?"eager":"lazy"}" data-src="${esc(ph.src)}">
         <figcaption class="cap">${esc(ph.cap)}</figcaption>
         <div class="slot"><b>FOTO ${String(i+1).padStart(2,"0")}</b></div>
       </figure>`;
