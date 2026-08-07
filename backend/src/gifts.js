@@ -27,7 +27,10 @@ export const PRESENTES = [
   { id: "g17",   code: "ND-117",   valor: 200,   titulo: "Camiseta do time de futebol americano" },
   { id: "g18",   code: "ND-118",   valor: 250,   titulo: "Um livro de física com problemas super “fáceis”" },
   { id: "g19",   code: "ND-119",   valor: 150,   titulo: "Um kit de material escolar" },
-  { id: "g20",   code: "ND-120",   valor: 700,   titulo: "Bagagem extra na volta, pra trazer presentes" }
+  { id: "g20",   code: "ND-120",   valor: 700,   titulo: "Bagagem extra na volta, pra trazer presentes" },
+  { id: "g21",   code: "ND-121",   valor: 4000,  titulo: "Computador, pra fazer todas as minhas contas durante quatro anos da minha vida" },
+  { id: "g22",   code: "ND-122",   valor: 200,   titulo: "Camisa oficial de Notre Dame, pra torcer com estilo" },
+  { id: "g23",   code: "ND-123",   valor: 300,   titulo: "Aliança de compromisso nova nova" }
 ];
 
 export const porId = new Map(PRESENTES.map(p => [p.id, p]));

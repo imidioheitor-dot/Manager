@@ -110,7 +110,7 @@ describe("a função da Netlify, com o @netlify/blobs de verdade", () => {
     assert.equal(r.corpo.recados[0].texto, "oi");
   });
 
-  test("oito aparelhos no mesmo presente ao mesmo tempo: só um leva", async () => {
+  test("oito aparelhos no mesmo presente ao mesmo tempo: as oito entram", async () => {
     const rs = await Promise.all(Array.from({ length: 8 }, (_, i) =>
       chamar("/api/reservar", {
         ip: "10.0.0." + i,
@@ -118,13 +118,18 @@ describe("a função da Netlify, com o @netlify/blobs de verdade", () => {
         funcao: i % 2 ? api2 : api,     // metade em cada instância
       })
     ));
-    assert.equal(rs.filter(r => r.status === 201).length, 1);
-    assert.equal(rs.filter(r => r.status === 409).length, 7);
+    assert.equal(rs.filter(r => r.status === 201).length, 8);
     assert.equal(rs.filter(r => r.status >= 500).length, 0, "nada pode virar erro de servidor");
 
     const e = await chamar("/api/estado");
     assert.ok(e.corpo.reservas.g12, "a reserva anterior continua lá");
-    assert.ok(e.corpo.reservas.g07);
+    // Oito gravações concorrentes vindas de DUAS instâncias da função, e as
+    // oito sobrevivem: é o compare-and-set do Blobs refazendo cada colisão.
+    assert.equal(e.corpo.reservas.g07.quantidade, 8);
+    assert.equal(
+      new Set(e.corpo.reservas.g07.pessoas.map(p => p.nome)).size, 8,
+      "ninguém pode ter sido sobrescrito por outro"
+    );
   });
 
   test("o limite por IP mora em chave própria, longe do estado", async () => {

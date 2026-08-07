@@ -29,6 +29,17 @@ export const ESTADO_VAZIO = { rev: 0, atualizadoEm: null, reservas: {}, recados:
 
 const MAX_RECADOS = 500;
 
+/* Um presente pode ser dado por mais de uma pessoa: `reservas[id]` é uma LISTA.
+ *
+ * Documentos gravados antes dessa mudança guardavam um registro só por
+ * presente. Ler é o único lugar onde essa diferença importa, então ela morre
+ * aqui: tudo que sai desta função é lista, e o resto do arquivo não precisa
+ * saber que a forma antiga existiu. */
+function listaDe(valor) {
+  if (Array.isArray(valor)) return valor;
+  return valor ? [valor] : [];
+}
+
 const json = (status, dados) => ({
   status,
   headers: {
@@ -94,8 +105,15 @@ export function criarHandler(cfg) {
     }
 
     const reservas = doc.reservas ?? {};
-    const reservados = new Set(Object.keys(reservas));
-    const arrecadado = Object.values(reservas)
+    // Só conta como reservado o presente que tem pelo menos uma pessoa.
+    const listas = Object.fromEntries(
+      Object.entries(reservas).map(([id, v]) => [id, listaDe(v)])
+    );
+    const reservados = new Set(
+      Object.entries(listas).filter(([, l]) => l.length > 0).map(([id]) => id)
+    );
+    const arrecadado = Object.values(listas)
+      .flat()
       .reduce((s, r) => s + (Number(r?.valor) || 0), 0);
 
     return json(200, {
@@ -110,12 +128,18 @@ export function criarHandler(cfg) {
         valor: p.valor,
         reservado: reservados.has(p.id),
       })),
-      // Só o que é público: quem reservou, quando e por quanto.
+      // Só o que é público: quem deu, quando e por quanto. `nome`/`ts`/`valor`
+      // descrevem a primeira pessoa e existem para quem só quer mostrar "já
+      // reservado"; `pessoas` traz a lista inteira e `quantidade` o tamanho.
       reservas: Object.fromEntries(
-        Object.entries(reservas).map(([id, r]) => [
-          id,
-          { nome: r?.nome ?? "", ts: r?.ts ?? 0, valor: r?.valor ?? 0 },
-        ])
+        Object.entries(listas)
+          .filter(([, l]) => l.length > 0)
+          .map(([id, l]) => {
+            const pessoas = l.map(r => ({
+              nome: r?.nome ?? "", ts: r?.ts ?? 0, valor: r?.valor ?? 0,
+            }));
+            return [id, { ...pessoas[0], quantidade: pessoas.length, pessoas }];
+          })
       ),
       recados: [...(doc.recados ?? [])].sort((a, b) => (b.ts ?? 0) - (a.ts ?? 0)),
       totais: {
@@ -139,41 +163,27 @@ export function criarHandler(cfg) {
 
     const ts = agora();
     const registro = { nome: dados.nome, valor: dados.valor, titulo: dados.titulo, ts };
-    const exclusivo = dados.presenteId !== VALOR_LIVRE.id;
+    const nominal = dados.presenteId !== VALOR_LIVRE.id;
 
-    // Reserva e recado numa gravação só: menos disputa, e nunca acontece de
-    // sobrar um recado no mural sem a reserva correspondente.
-    let resultado;
-    try {
-      resultado = await atualizarDoc(armazem, CHAVE_ESTADO, ESTADO_VAZIO, doc => {
-        if (exclusivo && doc.reservas?.[dados.presenteId]) {
-          return { abortar: true, motivo: "ja_reservado" };
-        }
-        const reservas = exclusivo
-          ? { ...doc.reservas, [dados.presenteId]: registro }
-          : { ...doc.reservas };
-        const recados = dados.recado
-          ? [{ nome: dados.nome, texto: dados.recado, presente: dados.titulo, ts },
-             ...(doc.recados ?? [])].slice(0, MAX_RECADOS)
-          : [...(doc.recados ?? [])];
-        return { doc: { ...doc, reservas, recados } };
-      });
-    } catch (e) {
-      if (!(e instanceof ErroConcorrencia)) throw e;
-      // Esgotou sob concorrência alta. Em vez de estourar um 500, relê e deixa
-      // o estado real decidir: se o presente já saiu, isso é 409, não erro.
-      const { doc } = await lerDoc(armazem, CHAVE_ESTADO, ESTADO_VAZIO);
-      if (exclusivo && doc.reservas?.[dados.presenteId]) {
-        return erro(409, "esse presente acabou de ser reservado por outra pessoa",
-          { conflito: true, motivo: "ja_reservado" });
+    /* Ninguém é recusado por chegar depois.
+     *
+     * Um presente já escolhido continua aceitando gente: a lista cresce e as
+     * duas contribuições contam. O compare-and-set do armazém segue sendo
+     * essencial — agora não para dizer "não" ao segundo, mas justamente para
+     * que o segundo não apague o primeiro quando os dois gravam ao mesmo
+     * tempo. Reserva e recado vão na MESMA gravação, então nunca sobra um
+     * recado no mural sem a contribuição correspondente. */
+    const resultado = await atualizarDoc(armazem, CHAVE_ESTADO, ESTADO_VAZIO, doc => {
+      const reservas = { ...doc.reservas };
+      if (nominal) {
+        reservas[dados.presenteId] = [...listaDe(reservas[dados.presenteId]), registro];
       }
-      throw e;
-    }
-
-    if (resultado.abortar) {
-      return erro(409, "esse presente acabou de ser reservado por outra pessoa",
-        { conflito: true, motivo: resultado.motivo });
-    }
+      const recados = dados.recado
+        ? [{ nome: dados.nome, texto: dados.recado, presente: dados.titulo, ts },
+           ...(doc.recados ?? [])].slice(0, MAX_RECADOS)
+        : [...(doc.recados ?? [])];
+      return { doc: { ...doc, reservas, recados } };
+    });
 
     // O código Pix nasce aqui, com a chave e o valor que o SERVIDOR definiu.
     const payload = montarPayload({
@@ -189,6 +199,11 @@ export function criarHandler(cfg) {
       presenteId: dados.presenteId,
       titulo: dados.titulo,
       valor: dados.valor,
+      // Quantas pessoas já escolheram este presente, contando esta. O site usa
+      // para dizer "você é a 2ª pessoa a dar esse".
+      quantidade: nominal
+        ? listaDe(resultado.doc.reservas?.[dados.presenteId]).length
+        : 1,
       rev: resultado.doc.rev,
       pix: payload,
     });
