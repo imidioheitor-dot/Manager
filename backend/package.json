@@ -1,0 +1,19 @@
+{
+  "name": "aniversario-heitor-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend do site de aniversário e despedida — reservas de presentes e mural, com Pix gerado no servidor.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node local-server.js",
+    "test": "node --test",
+    "sync-catalogo": "node scripts/sync-catalogo.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@netlify/blobs": "^10.7.12"
+  }
+}

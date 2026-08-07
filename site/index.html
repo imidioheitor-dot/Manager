@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heitor Imídio — Aniversário & Despedida · 16.08</title>
+<meta name="description" content="Aniversário e despedida do Heitor Imídio, que embarca para a University of Notre Dame. Escolha um presente simbólico e mande seu Pix.">
+<meta property="og:title" content="Heitor Imídio — Aniversário & Despedida">
+<meta property="og:description" content="Goianira → South Bend. Escolha um presente da viagem e deixe um recado.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<!-- Prévia no WhatsApp. Depois de publicar, troque por URL absoluta:
+     https://seu-site.netlify.app/assets/og.jpg -->
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heitor Imídio — Aniversário e Despedida, 16 de agosto">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="assets/og.jpg">
+<meta name="theme-color" content="#0C2340">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C2340'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23C99700' stroke-width='2.5'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='21' fill='%23E9C45A' text-anchor='middle'%3EHI%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Pinyon+Script&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --navy:#0C2340;          /* Notre Dame official navy — page canvas */
+  --navy-deep:#061529;     /* deepest void */
+  --navy-lift:#123055;     /* elevated surface (boarding pass) */
+  --navy-line:#1E4272;     /* hairline */
+  --gold:#C99700;          /* Notre Dame official gold — the accent */
+  --gold-hi:#E9C45A;       /* gold highlight */
+  --cream:#FBF3E4;         /* primary text */
+  --slate:#7D91AB;         /* muted text */
+  --red:#B3122B;           /* flag red — reserved state ONLY */
+
+  --f-display:'Cinzel',Georgia,serif;
+  --f-script:'Pinyon Script',cursive;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  --f-body:'Inter',system-ui,sans-serif;
+
+  --pad:clamp(20px,5vw,72px);
+  --maxw:1340px;
+  --ease:cubic-bezier(.52,.01,0,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--navy);color:var(--cream);
+  font-family:var(--f-body);font-weight:300;line-height:1.6;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+img,video,canvas{max-width:100%;display:block}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px;border-radius:2px}
+
+/* Flag motif — the ONLY place stripes appear */
+.stripes{height:3px;width:100%;background:repeating-linear-gradient(90deg,
+  var(--red) 0 28px,transparent 28px 56px);opacity:.5}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#pre{position:fixed;inset:0;z-index:999;background:var(--navy-deep);
+  display:grid;place-items:center;transition:opacity .8s var(--ease),visibility .8s}
+#pre.done{opacity:0;visibility:hidden}
+#pre svg{width:92px;height:92px;overflow:visible}
+#pre path,#pre circle{fill:none;stroke:var(--gold);stroke-width:1.5;
+  stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 1.9s var(--ease) forwards}
+#pre circle{animation-delay:.25s}
+@keyframes draw{to{stroke-dashoffset:0}}
+#pre .pl-t{position:absolute;bottom:16%;font-family:var(--f-mono);font-size:11px;
+  letter-spacing:.32em;color:var(--slate);text-transform:uppercase;
+  opacity:0;animation:fadein .8s .9s forwards}
+@keyframes fadein{to{opacity:1}}
+
+/* ============================================================
+   CURSOR
+   ============================================================ */
+#cur,#curDot{position:fixed;top:0;left:0;pointer-events:none;z-index:900;
+  border-radius:50%;mix-blend-mode:screen}
+#cur{width:34px;height:34px;border:1px solid rgba(201,151,0,.75);
+  transition:width .3s var(--ease),height .3s var(--ease),background .3s}
+#curDot{width:4px;height:4px;background:var(--gold-hi)}
+#cur,#curDot{opacity:0;transition-property:width,height,background,opacity}
+body.pointing #cur,body.pointing #curDot{opacity:1}
+body.mala #cur{opacity:0}
+#cur.big{width:76px;height:76px;background:rgba(201,151,0,.09);border-color:rgba(233,196,90,.9)}
+@media(hover:none){#cur,#curDot{display:none}}
+
+/* Ambient gold particle canvas */
+#dust{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+header{position:fixed;top:0;left:0;right:0;z-index:600;
+  padding:20px var(--pad);display:flex;align-items:center;justify-content:space-between;
+  transition:background .5s var(--ease),padding .5s var(--ease),backdrop-filter .5s}
+header.stuck{background:rgba(6,21,41,.82);backdrop-filter:blur(14px);padding:12px var(--pad);
+  border-bottom:1px solid rgba(30,66,114,.6)}
+.mono{font-family:var(--f-mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mk{width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;font-family:var(--f-display);font-size:13px;
+  color:var(--gold);letter-spacing:.04em}
+.brand b{font-family:var(--f-display);font-weight:500;font-size:14px;letter-spacing:.14em}
+nav{display:flex;align-items:center;gap:34px}
+nav a{font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--slate);transition:color .4s var(--ease);position:relative}
+nav a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:1px;
+  background:var(--gold);transition:width .45s var(--ease)}
+nav a:hover{color:var(--cream)}nav a:hover::after{width:100%}
+.pill{border:1px solid var(--gold);color:var(--gold);padding:11px 22px;border-radius:999px;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  transition:background .45s var(--ease),color .45s var(--ease)}
+.pill:hover{background:var(--gold);color:var(--navy-deep)}
+#burger{display:none;width:30px;height:18px;position:relative}
+#burger i{position:absolute;left:0;width:100%;height:1.5px;background:var(--cream);
+  transition:transform .45s var(--ease),opacity .3s}
+#burger i:nth-child(1){top:0}#burger i:nth-child(2){bottom:0}
+#burger.on i:nth-child(1){transform:translateY(8px) rotate(45deg)}
+#burger.on i:nth-child(2){transform:translateY(-8px) rotate(-45deg)}
+@media(max-width:900px){
+  nav{position:fixed;inset:0;background:var(--navy-deep);flex-direction:column;
+    justify-content:center;gap:30px;transform:translateY(-100%);
+    transition:transform .7s var(--ease);z-index:590}
+  nav.open{transform:translateY(0)}
+  nav a{font-size:14px}
+  #burger{display:block;z-index:600}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding:120px var(--pad) 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg video{width:100%;height:100%;object-fit:cover;opacity:.34;
+  filter:saturate(.85) contrast(1.05)}
+.hero-bg::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 45%,transparent 0%,rgba(12,35,64,.72) 58%,var(--navy) 100%)}
+.hero-in{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;width:100%}
+.eyebrow{display:flex;align-items:center;gap:14px;color:var(--gold);margin-bottom:26px}
+.eyebrow span{height:1px;width:52px;background:var(--gold);opacity:.6}
+
+/* TextPressure headline */
+#tp{font-family:var(--f-display);font-weight:600;color:var(--cream);
+  margin:0;line-height:.92;letter-spacing:-.01em;display:flex;
+  justify-content:space-between;white-space:nowrap;user-select:none;
+  font-size:clamp(48px,13.2vw,190px)}
+#tp span{display:inline-block;transition:opacity .2s linear;will-change:transform}
+.script{font-family:var(--f-script);color:var(--gold-hi);
+  font-size:clamp(30px,6.4vw,88px);line-height:1;margin:6px 0 0;font-weight:400}
+.hero-sub{max-width:480px;margin:38px 0 0;color:var(--cream);opacity:.82;font-size:16px}
+
+/* Boarding strip: the departures-board data line */
+.strip{margin-top:46px;border-top:1px solid var(--navy-line);
+  border-bottom:1px solid var(--navy-line);padding:18px 0;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.strip div{display:flex;flex-direction:column;gap:7px}
+.strip .k{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--slate)}
+.strip .v{font-family:var(--f-mono);font-size:clamp(15px,2.2vw,22px);
+  font-weight:700;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+@media(max-width:720px){.strip{grid-template-columns:repeat(2,1fr);gap:22px}}
+
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  z-index:3;color:var(--slate);display:flex;flex-direction:column;
+  align-items:center;gap:9px;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.3em}
+.scrollcue i{width:1px;height:44px;background:linear-gradient(var(--gold),transparent);
+  animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ============================================================
+   PORTAL — scroll-driven passage through the golden dome
+   ============================================================ */
+.portal{position:relative;height:280vh}
+.portal-stick{position:sticky;top:0;height:100svh;overflow:hidden;
+  display:grid;place-items:center}
+.portal-layer{position:absolute;inset:0;display:grid;place-items:center;
+  padding:0 var(--pad);text-align:center}
+/* Layer A = lado de ca, fica embaixo e some */
+.portal-a{background:var(--navy);z-index:1}
+/* Layer B = lado de la, cresce por cima como um portal se abrindo */
+.portal-b{background:
+  radial-gradient(ellipse at 50% 60%,rgba(201,151,0,.20),transparent 62%),var(--navy-deep);
+  z-index:2;clip-path:circle(0% at 50% 50%);will-change:clip-path}
+.portal h2{font-family:var(--f-display);font-weight:500;
+  font-size:clamp(30px,6.6vw,86px);line-height:1.03;margin:0;letter-spacing:-.005em}
+.portal .lede{max-width:620px;margin:26px auto 0;color:var(--slate);font-size:16px}
+.portal .gold{color:var(--gold-hi)}
+.ring{position:absolute;width:min(78vmin,620px);aspect-ratio:1;border-radius:50%;
+  border:1px solid rgba(201,151,0,.30);z-index:0;pointer-events:none}
+.ring:nth-of-type(2){width:min(58vmin,470px);border-color:rgba(201,151,0,.20)}
+.ring:nth-of-type(3){width:min(38vmin,320px);border-color:rgba(201,151,0,.14)}
+#pBtext{opacity:0}
+#pAtext,#pBtext{transition:opacity .12s linear}
+@media(prefers-reduced-motion:reduce){#pAtext,#pBtext{opacity:1!important}}
+
+/* ============================================================
+   SECTION SHELL
+   ============================================================ */
+section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index:2;
+  scroll-margin-top:86px}
+.portal,.hero{scroll-margin-top:0}
+.wrap{max-width:var(--maxw);margin:0 auto}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:30px;margin-bottom:56px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--f-display);font-weight:500;margin:0;
+  font-size:clamp(28px,4.6vw,60px);line-height:1.04;letter-spacing:-.005em;max-width:15ch}
+.sec-head p{margin:0;max-width:38ch;color:var(--slate);font-size:15px}
+.tag{color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.tag span{height:1px;width:34px;background:var(--gold);opacity:.55}
+
+/* ============================================================
+   BOARDING PASS GIFT CARDS  (+ Object Reveal on Hover)
+   ============================================================ */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.pass.wide{grid-column:span 2}
+@media(max-width:1000px){.pass.wide{grid-column:span 1}}
+.pass.free{background:linear-gradient(135deg,rgba(201,151,0,.13),rgba(18,48,85,.85));
+  border-color:rgba(201,151,0,.45)}
+.pass.free .pass-body{justify-content:center}
+.pass{position:relative;background:var(--navy-lift);border:1px solid var(--navy-line);
+  border-radius:14px;overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .5s var(--ease),border-color .5s var(--ease),box-shadow .5s var(--ease);
+  transform-style:preserve-3d;will-change:transform}
+.pass:hover{border-color:rgba(201,151,0,.6);
+  box-shadow:0 22px 60px rgba(0,0,0,.42),0 0 0 1px rgba(201,151,0,.14)}
+.pass.taken{opacity:.46}
+.pass.taken .buy{pointer-events:none}
+/* perforated tear line — the boarding-pass signature */
+.pass .tear{position:relative;height:1px;background:none;
+  border-top:1px dashed rgba(125,145,171,.42);margin:0 0}
+.pass .tear::before,.pass .tear::after{content:'';position:absolute;top:-9px;
+  width:18px;height:18px;border-radius:50%;background:var(--navy)}
+.pass .tear::before{left:-9px}.pass .tear::after{right:-9px}
+
+.pass-top{padding:20px 22px 16px;display:flex;justify-content:space-between;
+  align-items:flex-start;gap:14px}
+.route{font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--slate)}
+.route b{color:var(--gold);font-weight:700}
+.code{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;color:var(--slate)}
+
+.pass-body{padding:6px 22px 22px;flex:1;display:flex;flex-direction:column}
+.pass h3{font-family:var(--f-body);font-weight:400;font-size:19px;line-height:1.32;
+  margin:14px 0 10px;color:var(--cream)}
+.gift-note{font-size:13px;color:var(--slate);margin:0 0 18px;line-height:1.55}
+.lembra{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);opacity:.9;margin:0 0 18px;
+  display:flex;gap:8px;align-items:flex-start;line-height:1.7}
+.lembra em{font-style:normal;color:var(--slate);letter-spacing:.08em}
+
+.pass-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.price{font-family:var(--f-mono);font-weight:700;font-size:25px;color:var(--gold-hi);
+  font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.price small{font-size:12px;color:var(--slate);font-weight:400;margin-right:3px}
+.buy{border:1px solid var(--gold);color:var(--gold);padding:10px 18px;border-radius:999px;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  transition:background .4s var(--ease),color .4s var(--ease);white-space:nowrap}
+.buy:hover{background:var(--gold);color:var(--navy-deep)}
+.badge{position:absolute;top:16px;right:16px;background:var(--red);color:#fff;
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;display:none;z-index:3}
+.pass.taken .badge{display:block}
+.by{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;color:var(--slate);
+  margin-top:12px;display:none}
+.pass.taken .by{display:block}
+
+/* 3D reveal panel that follows the cursor */
+#reveal{position:fixed;width:168px;height:168px;pointer-events:none;z-index:850;
+  opacity:0;transform:scale(.82);transition:opacity .38s var(--ease),transform .38s var(--ease)}
+#reveal.on{opacity:1;transform:scale(1)}
+@media(hover:none),(max-width:900px){#reveal{display:none}}
+
+
+/* ============================================================
+   FOTOS — placeholders que dizem qual imagem vai em cada vaga
+   ============================================================ */
+.ph{position:relative;overflow:hidden;border-radius:14px;background:var(--navy-lift);
+  border:1px solid var(--navy-line);display:block;width:100%}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(.72) contrast(1.08) brightness(.84);
+  transition:transform 1.2s var(--ease),filter .7s var(--ease)}
+.ph::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(12,35,64,.30),rgba(6,21,41,.55));
+  mix-blend-mode:multiply;transition:opacity .7s var(--ease)}
+.ph:not(.empty):hover::before{opacity:0}
+.ph:not(.empty):hover img{filter:none}
+.ph.empty img{opacity:0}
+.ph .slot{position:absolute;inset:0;z-index:3;display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:9px;padding:18px;text-align:center;
+  border:1px dashed rgba(201,151,0,.42);border-radius:14px}
+.ph.empty .slot{display:flex}
+.ph .slot b{font-family:var(--f-mono);font-size:10px;letter-spacing:.26em;
+  color:var(--gold);font-weight:700}
+.ph .slot span{font-family:var(--f-body);font-size:12.5px;color:var(--slate);
+  line-height:1.5;max-width:24ch}
+.ph:not(.empty):hover img{transform:scale(1.05)}
+.ph::after{content:'';position:absolute;inset:0;border-radius:14px;
+  box-shadow:inset 0 0 0 1px rgba(201,151,0,.16);pointer-events:none}
+.ph .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:18px 16px 15px;
+  background:linear-gradient(transparent,rgba(6,21,41,.94));
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--cream);opacity:0;
+  transform:translateY(10px);
+  transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.ph:not(.empty):hover .cap{opacity:1;transform:none}
+
+/* galeria de memórias */
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.galeria .ph{aspect-ratio:3/4}
+.galeria .ph:nth-child(6n+1){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.galeria .ph:nth-child(6n){grid-column:1/-1;aspect-ratio:16/6}
+@media(max-width:900px){
+  .galeria{grid-template-columns:repeat(2,1fr);gap:10px}
+  .galeria .ph:nth-child(6n+1){grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
+  .galeria .ph:nth-child(6n){aspect-ratio:3/2}
+}
+
+/* Slots seguem a orientação REAL de cada foto.
+   Sem isto o destaque impõe 4/3 no celular e decapita retratos — era o que
+   acontecia com a foto da Prep Gala, que perdia 44% no topo e na base. */
+.galeria .ph.is-tall  {aspect-ratio:3/4}
+.galeria .ph.is-wide  {aspect-ratio:3/2}
+.galeria .ph.is-square{aspect-ratio:1/1}
+.galeria .ph:nth-child(6n+1).is-tall  {aspect-ratio:4/5}
+.galeria .ph:nth-child(6n+1).is-wide  {aspect-ratio:3/2}
+.galeria .ph:nth-child(6n+1).is-square{aspect-ratio:1/1}
+.galeria .ph:nth-child(6n).is-tall    {aspect-ratio:4/3}
+.galeria .ph:nth-child(6n).is-square  {aspect-ratio:2/1}
+@media(max-width:900px){
+  .galeria .ph:nth-child(6n+1).is-tall  {aspect-ratio:3/4}
+  .galeria .ph:nth-child(6n+1).is-square{aspect-ratio:1/1}
+  .galeria .ph:nth-child(6n).is-tall    {aspect-ratio:4/3}
+}
+
+/* As fotos reagem ao cursor: inclinação 3D sutil + brilho que segue o ponteiro */
+.ph{--mx:50%;--my:50%;--rx:0deg;--ry:0deg}
+.galeria .ph,.tira .ph{will-change:transform;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.galeria .ph.react,.tira .ph.react{
+  transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.ph .glare{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;
+  border-radius:14px;mix-blend-mode:screen;transition:opacity .4s var(--ease);
+  background:radial-gradient(300px circle at var(--mx) var(--my),
+    rgba(232,199,102,.26),rgba(232,199,102,.07) 42%,transparent 70%)}
+.ph:not(.empty).react .glare{opacity:1}
+@media(hover:none){
+  .galeria .ph.react,.tira .ph.react{transform:none;box-shadow:none}
+  .ph .glare{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .galeria .ph.react,.tira .ph.react{transform:none}
+}
+
+/* fotos flutuantes na hero */
+.hero-fotos{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-fotos .ph{position:absolute;width:clamp(120px,13vw,196px);aspect-ratio:3/4;
+  pointer-events:auto;box-shadow:0 26px 60px rgba(0,0,0,.5)}
+.hero-fotos .ph:nth-child(1){right:7%;top:41%;transform:rotate(4deg)}
+.hero-fotos .ph:nth-child(2){right:25%;top:52%;transform:rotate(-6deg)}
+@media(max-width:1100px){.hero-fotos{display:none}}
+
+/* tira do rodapé */
+.tira{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:var(--maxw);margin:0 auto 56px}
+.tira .ph{aspect-ratio:1/1}
+@media(max-width:640px){.tira{grid-template-columns:1fr}}
+
+
+/* ============================================================
+   TOTAL PROGRESS
+   ============================================================ */
+.aviso-off{
+  margin:22px 0 0;padding:14px 18px;border-radius:12px;
+  border:1px solid rgba(201,151,0,.45);background:rgba(201,151,0,.09);
+  color:var(--gold-hi);font-size:.92rem;line-height:1.5
+}
+.total{border:1px solid var(--navy-line);border-radius:16px;padding:clamp(26px,4vw,44px);
+  background:linear-gradient(180deg,rgba(18,48,85,.6),rgba(6,21,41,.3));margin-top:56px}
+.total-row{display:flex;justify-content:space-between;align-items:flex-end;
+  gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.total .big{font-family:var(--f-mono);font-weight:700;
+  font-size:clamp(30px,6vw,60px);color:var(--gold-hi);font-variant-numeric:tabular-nums;line-height:1}
+.bar{height:6px;background:rgba(30,66,114,.7);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-hi));
+  transition:width 1.4s var(--ease)}
+
+/* ============================================================
+   3D PRODUCT ANIMATION
+   ============================================================ */
+.showcase{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);
+  align-items:center}
+@media(max-width:940px){.showcase{grid-template-columns:1fr}}
+#stage{width:100%;aspect-ratio:1/1;max-height:76vh;cursor:grab;touch-action:pan-y}
+#stage:active{cursor:grabbing}
+.hint{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--slate);margin-top:14px;text-align:center}
+
+/* ============================================================
+   CHALLENGES
+   ============================================================ */
+.chal{border:1px solid var(--navy-line);border-radius:14px;padding:26px;
+  display:flex;flex-direction:column;gap:16px;background:rgba(18,48,85,.4);
+  transition:border-color .5s var(--ease)}
+.chal:hover{border-color:rgba(201,151,0,.45)}
+.chal.hit{border-color:var(--gold)}
+.chal.final{grid-column:1/-1;background:
+  linear-gradient(135deg,rgba(201,151,0,.14),rgba(18,48,85,.7));
+  border-color:rgba(201,151,0,.5);padding:clamp(26px,4vw,40px)}
+.chal.final h3{font-family:var(--f-display);font-weight:500;
+  font-size:clamp(20px,3vw,32px);line-height:1.2;max-width:24ch}
+.chal.final .goal{font-size:12px}
+@media(max-width:1000px){.chal.final{grid-column:auto}}
+.chal h3{font-family:var(--f-body);font-weight:400;font-size:17px;margin:0;line-height:1.42}
+.chal .goal{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--slate);
+  display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.chal .goal b{color:var(--gold-hi)}
+.chal .done{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold);display:none}
+.chal.hit .done{display:block}
+
+/* ============================================================
+   MESSAGE WALL
+   ============================================================ */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px;
+  align-items:start}
+.note{border:1px solid var(--navy-line);border-radius:14px;padding:24px;
+  background:rgba(18,48,85,.45)}
+.note.invite{background:linear-gradient(135deg,rgba(201,151,0,.13),rgba(18,48,85,.6));
+  border-color:rgba(201,151,0,.42);display:flex;flex-direction:column;
+  justify-content:center;gap:16px;min-height:190px}
+.note.invite.grow{grid-column:1/-1}
+@media(max-width:640px){.note.invite.grow{grid-column:auto}}
+.note p{margin:0 0 16px;font-size:15px;line-height:1.62;color:var(--cream);opacity:.92}
+.note .who{font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold)}
+.note .what{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;
+  color:var(--slate);margin-top:5px}
+.empty{border:1px dashed var(--navy-line);border-radius:14px;padding:48px 26px;
+  text-align:center;color:var(--slate);font-size:15px}
+
+/* ============================================================
+   MODAL — Pix checkout
+   ============================================================ */
+#modal{position:fixed;inset:0;z-index:800;display:none;place-items:center;
+  padding:20px;background:rgba(3,11,22,.86);backdrop-filter:blur(10px)}
+#modal.on{display:grid}
+.sheet{background:var(--navy);border:1px solid var(--navy-line);border-radius:18px;
+  width:min(560px,100%);max-height:92svh;overflow-y:auto;position:relative;
+  animation:rise .55s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+.sheet-h{padding:26px 28px 20px;border-bottom:1px dashed rgba(125,145,171,.4)}
+.sheet-b{padding:26px 28px 30px}
+.x{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--navy-line);display:grid;place-items:center;color:var(--slate);
+  font-size:19px;line-height:1;transition:border-color .3s,color .3s}
+.x:hover{border-color:var(--gold);color:var(--gold)}
+#mTitle{font-family:var(--f-body);font-weight:400;font-size:21px;margin:12px 0 0;
+  line-height:1.35;padding-right:40px}
+#mPrice{font-family:var(--f-mono);font-weight:700;font-size:38px;color:var(--gold-hi);
+  margin-top:12px;font-variant-numeric:tabular-nums}
+#qr{width:214px;height:214px;margin:0 auto;background:var(--cream);padding:11px;
+  border-radius:12px}
+#qr img,#qr canvas{width:100%;height:100%;image-rendering:pixelated}
+.qr-cap{text-align:center;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--slate);margin:14px 0 22px}
+.copy-row{display:flex;gap:9px;margin-bottom:8px}
+.copy-row input{flex:1;min-width:0;background:var(--navy-deep);border:1px solid var(--navy-line);
+  color:var(--slate);border-radius:10px;padding:13px 14px;font-family:var(--f-mono);
+  font-size:11px;overflow:hidden;text-overflow:ellipsis}
+.btn{background:var(--gold);color:var(--navy-deep);border-radius:10px;padding:13px 20px;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:700;transition:background .3s var(--ease);white-space:nowrap}
+.btn:hover{background:var(--gold-hi)}
+.btn.ghost{background:none;border:1px solid var(--gold);color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:var(--navy-deep)}
+.btn.wide{width:100%;padding:15px;text-align:center}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.step{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin:28px 0 14px;display:flex;align-items:center;gap:11px}
+.step span{flex:1;height:1px;background:var(--navy-line)}
+label{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--slate);margin-bottom:8px}
+input[type=text],textarea{width:100%;background:var(--navy-deep);
+  border:1px solid var(--navy-line);color:var(--cream);border-radius:10px;
+  padding:13px 14px;font-family:var(--f-body);font-size:15px;margin-bottom:16px;
+  transition:border-color .3s}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:96px}
+.fine{font-size:12px;color:var(--slate);line-height:1.6;margin:14px 0 0}
+.ok{text-align:center;padding:26px 0}
+.ok .ico{width:62px;height:62px;border:1px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;margin:0 auto 20px;color:var(--gold);font-size:27px}
+.ok h3{font-family:var(--f-display);font-weight:500;font-size:25px;margin:0 0 10px}
+
+/* toast */
+#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,200%);z-index:950;
+  background:var(--gold);color:var(--navy-deep);padding:13px 26px;border-radius:999px;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .5s var(--ease),opacity .35s var(--ease),visibility .35s}
+#toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--navy-line);
+  position:relative;z-index:2}
+.f-grid{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;
+  gap:34px;flex-wrap:wrap;align-items:flex-end}
+.f-grid h3{font-family:var(--f-display);font-weight:500;font-size:clamp(24px,4vw,44px);
+  margin:0;line-height:1.1;max-width:14ch}
+.f-meta{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;color:var(--slate);
+  text-align:right;line-height:2.1}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(30px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  #cur,#curDot,#dust,#reveal{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="pre">
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M50 8 C30 30 22 52 22 68 L78 68 C78 52 70 30 50 8 Z"/>
+    <path d="M22 68 L22 92 M78 68 L78 92 M22 92 L78 92"/>
+    <circle cx="50" cy="6" r="3.5"/>
+  </svg>
+  <div class="pl-t">Preparando o embarque</div>
+</div>
+
+<div id="cur"></div><div id="curDot"></div>
+<canvas id="dust"></canvas>
+<canvas id="reveal"></canvas>
+
+<!-- NAV -->
+<header id="hd">
+  <a href="#top" class="brand">
+    <span class="mk">HI</span>
+    <b>HEITOR IMÍDIO</b>
+  </a>
+  <nav id="nav">
+    <a href="#viagem">A viagem</a>
+    <a href="#presentes">Presentes</a>
+    <a href="#desafios">Desafios</a>
+    <a href="#mural">Mural</a>
+    <a href="#presentes" class="pill">Mandar Pix</a>
+  </nav>
+  <button id="burger" aria-label="Abrir menu"><i></i><i></i></button>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <!-- Local file wins when present; the CDN copy keeps the site working meanwhile.
+         Baixe o mp4 e salve como assets/hero.mp4 para não depender do CDN. -->
+    <video id="heroVid" autoplay muted loop playsinline preload="metadata">
+      <source src="assets/hero.mp4" type="video/mp4">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260729_020941_4feb023f-04f8-4951-b19b-64296a2b1cde.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-fotos" id="heroFotos"></div>
+  <div class="hero-in">
+    <div class="eyebrow mono"><span></span>Goianira, GO &nbsp;→&nbsp; South Bend, Indiana</div>
+    <h1 id="tp" aria-label="Heitor">HEITOR</h1>
+    <p class="script">Aniversário &amp; Despedida</p>
+    <p class="hero-sub">Faço 19 anos e, poucos dias depois, embarco para estudar
+      Engenharia Mecânica na University of Notre Dame. Não cabe muita coisa na mala —
+      mas cabem todas as memórias e contribuições que vocês fizeram na minha vida.</p>
+
+    <div class="strip">
+      <div><span class="k">Embarque</span><span class="v">18 · 08</span></div>
+      <div><span class="k">Faltam</span><span class="v" id="cd">—</span></div>
+      <div><span class="k">Missa</span><span class="v">07:30</span></div>
+      <div><span class="k">Almoço</span><span class="v">11:00</span></div>
+    </div>
+  </div>
+  <div class="scrollcue"><span>Role</span><i></i></div>
+</section>
+
+<!-- PORTAL -->
+<section class="portal" id="viagem">
+  <div class="portal-stick">
+    <div class="portal-layer portal-b">
+      <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+      <div id="pBtext">
+        <div class="tag mono"><span></span>Do outro lado</div>
+        <h2>E um diploma internacional da<br><span class="gold">melhor católica do mundo</span><br>lá.</h2>
+        <p class="lede">Cada presente aqui é um pedaço dessa travessia — do almoço
+          no aeroporto à bicicleta que vai me levar pra aula. Você escolhe qual momento
+          quer bancar.</p>
+      </div>
+    </div>
+    <div class="portal-layer portal-a" id="pA">
+      <div id="pAtext">
+        <div class="tag mono"><span></span>Deste lado</div>
+        <h2>Dezoito anos <span class="gold">aqui</span>.</h2>
+        <p class="lede">Muitas memórias e um incrível ensino médio.</p>
+        <div class="mono" style="margin-top:30px;color:var(--gold);opacity:.8">
+          Role para atravessar ↓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D SHOWCASE -->
+<section class="band" id="memorias">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="tag mono"><span></span>Deste lado</div>
+        <h2>Dezoito anos que couberam aqui.</h2>
+      </div>
+      <p>Antes de falar do que vem pela frente: um pouco do que ficou. A escola,
+         a família, os laboratórios, os palcos e os aviões que me trouxeram até
+         aqui — e as pessoas que estavam junto em cada um.</p>
+    </div>
+    <div class="galeria" id="galeria"></div>
+  </div>
+</section>
+
+<section class="band" id="cupula">
+  <div class="wrap showcase">
+    <div class="rv">
+      <div class="tag mono"><span></span>Como funciona</div>
+      <h2 style="font-family:var(--f-display);font-weight:500;margin:0 0 22px;
+                 font-size:clamp(28px,4.6vw,58px);line-height:1.05">
+        Não cabe todo mundo na mala.<br>Mas dá pra pegar
+        <span style="color:var(--gold-hi)">um pedacinho de Notre Dame</span> pra você.</h2>
+      <p style="color:var(--slate);font-size:16px;max-width:46ch;margin:0 0 18px">
+        Cada presente aqui tem o valor real de algo que pode mudar minha vida
+        universitária — e vem com uma pequena lembrancinha como recompensa.
+        Quanto maior o presente, maior a lembrança que volta pra você.</p>
+      <p style="color:var(--cream);font-size:17px;margin:0 0 22px">Dá uma olhada:</p>
+      <a href="#presentes" class="pill" style="display:inline-block">Ver os presentes</a>
+      <p class="hint" style="text-align:left;margin-top:26px">Arraste a cúpula para girar</p>
+    </div>
+    <div class="rv"><canvas id="stage"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS -->
+<section class="band" id="presentes">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="tag mono"><span></span>Cartões de embarque</div>
+        <h2>Escolha um momento da viagem.</h2>
+      </div>
+      <p>Cada cartão é um presente simbólico. Você paga por Pix, o valor cai direto
+         na conta, e deixa um recado que eu vou ler todos. Sem loja, sem entrega,
+         sem nada pra caber na mala.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+
+    <p class="aviso-off" id="avisoOffline" hidden>
+      Sem conexao com o servidor agora. O que voce marcar fica so neste
+      aparelho ate a conexao voltar — os outros convidados nao veem ainda.
+    </p>
+
+    <div class="total rv">
+      <div class="total-row">
+        <div>
+          <div class="mono" style="color:var(--slate);margin-bottom:10px">Já embarcado</div>
+          <div class="big" id="raised">R$ 0</div>
+        </div>
+        <div style="text-align:right">
+          <div class="mono" style="color:var(--slate);margin-bottom:10px">Presentes escolhidos</div>
+          <div class="big" id="count">0<span style="color:var(--slate);font-size:.5em">/13</span></div>
+        </div>
+      </div>
+      <div class="bar"><i id="barFill"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="band" id="desafios">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="tag mono"><span></span>Metas coletivas</div>
+        <h2>Se bater a meta, eu pago o mico.</h2>
+      </div>
+      <p>Estas não são presentes — são promessas. O valor total arrecadado no site
+         desbloqueia cada uma. Se bater, eu cumpro na festa do dia 16 e gravo.</p>
+    </div>
+    <div class="grid" id="chalGrid"></div>
+  </div>
+</section>
+
+<!-- WALL -->
+<section class="band" id="mural">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="tag mono"><span></span>Mural</div>
+        <h2>O que vai comigo.</h2>
+      </div>
+      <p>Os recados deixados junto com cada presente. Esse é o pedaço da bagagem
+         que não pesa nada.</p>
+    </div>
+    <div class="wall" id="wall"></div>
+    <div class="empty" id="wallEmpty">
+      Ainda não tem nenhum recado. O primeiro pode ser o seu.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="tira rv" id="tiraFotos"></div>
+  <div class="f-grid">
+    <h3>Obrigado por<br>fazer parte.</h3>
+    <div class="f-meta">
+      16 de agosto · Goianira, Goiás<br>
+      Missa de Ação de Graças 07:30 · Igreja Matriz<br>
+      Almoço a partir das 11:00<br>
+      University of Notre Dame · Mechanical Engineering
+    </div>
+  </div>
+  <div class="stripes" style="margin-top:46px"></div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet">
+    <button class="x" id="mClose" aria-label="Fechar">×</button>
+    <div class="sheet-h">
+      <div class="mono" style="color:var(--gold)" id="mCode">—</div>
+      <h2 id="mTitle">—</h2>
+      <div id="mPrice">—</div>
+    </div>
+    <div class="sheet-b" id="mBody">
+      <div class="step">Passo 1 — Pague o Pix<span></span></div>
+      <div id="freeWrap" style="display:none">
+        <label for="freeVal">Quanto você quer mandar</label>
+        <div class="copy-row" style="margin-bottom:18px">
+          <input type="text" id="freeVal" inputmode="numeric" value="150"
+                 style="font-family:var(--f-mono);font-size:17px;font-weight:700;
+                        color:var(--gold-hi)">
+          <button class="btn ghost" id="freeApply">Gerar QR</button>
+        </div>
+      </div>
+      <div id="qr"></div>
+      <div class="qr-cap">Aponte a câmera do seu banco</div>
+      <label>Ou copie o código Pix</label>
+      <div class="copy-row">
+        <input type="text" id="brcode" readonly>
+        <button class="btn" id="copyBtn">Copiar</button>
+      </div>
+      <p class="fine" id="pixInfo"></p>
+
+      <div class="step">Passo 2 — Avise que foi você<span></span></div>
+      <label for="nome">Seu nome</label>
+      <input type="text" id="nome" placeholder="Como você quer aparecer no mural"
+             autocomplete="name" maxlength="60">
+      <label for="msg">Recado para o Heitor <em style="text-transform:none;
+        letter-spacing:0;font-style:normal">(opcional)</em></label>
+      <textarea id="msg" placeholder="Escreve aí…" maxlength="400"></textarea>
+      <button class="btn wide" id="confirm">Já paguei — reservar presente</button>
+      <p class="fine">Isso marca o presente como escolhido para as outras pessoas e
+        publica seu recado no mural. A confirmação é na confiança — o Heitor confere
+        pelo extrato depois.</p>
+    </div>
+    <div class="sheet-b" id="mDone" style="display:none">
+      <div class="ok">
+        <div class="ico">&#10003;</div>
+        <h3>Presente reservado</h3>
+        <p id="doneMsg" style="color:var(--slate);max-width:36ch;margin:0 auto 24px;
+           font-size:15px"></p>
+        <button class="btn ghost" id="doneClose">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast">Copiado</div>
+
+<script>
+/* ==================================================================
+   QR ENCODER — implementação própria, byte mode, nível de correção M.
+   Sem CDN: o QR do Pix precisa funcionar mesmo offline.
+   ================================================================== */
+const QR=(function(){
+  const EXP=new Uint8Array(512), LOG=new Uint8Array(256);
+  for(let i=0,x=1;i<255;i++){ EXP[i]=x; LOG[x]=i; x<<=1; if(x&0x100) x^=0x11d; }
+  for(let i=255;i<512;i++) EXP[i]=EXP[i-255];
+  const mul=(a,b)=>(a&&b)?EXP[(LOG[a]+LOG[b])%255]:0;
+
+  /* nível M: [ecPorBloco, blocosG1, dadosG1, blocosG2, dadosG2] — versões 1..20 */
+  const EC=[null,
+   [10,1,16,0,0],[16,1,28,0,0],[26,1,44,0,0],[18,2,32,0,0],[24,2,43,0,0],
+   [16,4,27,0,0],[18,4,31,0,0],[22,2,38,2,39],[22,3,36,2,37],[26,4,43,1,44],
+   [30,1,50,4,51],[22,6,36,2,37],[22,8,37,1,38],[24,4,40,5,41],[24,5,41,5,42],
+   [28,7,45,3,46],[28,10,46,1,47],[26,9,43,4,44],[26,3,44,11,45],[26,3,41,13,42]];
+
+  const ALIGN=[null,[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],
+   [6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],
+   [6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90]];
+
+  function rsGen(n){
+    let g=[1];
+    for(let i=0;i<n;i++){
+      const ng=new Array(g.length+1).fill(0);
+      for(let j=0;j<g.length;j++){ ng[j]^=mul(g[j],EXP[i]); ng[j+1]^=g[j]; }
+      g=ng;
+    }
+    return g;
+  }
+  function rsEnc(data,n){
+    const g=rsGen(n), res=new Array(n).fill(0);
+    for(const b of data){
+      const f=b^res[0];
+      res.shift(); res.push(0);
+      for(let i=0;i<n;i++) res[i]^=mul(g[i+1],f);
+    }
+    return res;
+  }
+  const fmtBits=(mask)=>{           // nível M => 0b00
+    const d=(0<<3)|mask; let r=d;
+    for(let i=0;i<10;i++) r=(r<<1)^(((r>>>9)&1)*0x537);
+    return (((d<<10)|(r&0x3ff))^0x5412)&0x7fff;
+  };
+  const verBits=(v)=>{ let r=v;
+    for(let i=0;i<12;i++) r=(r<<1)^(((r>>>11)&1)*0x1F25);
+    return ((v<<12)|(r&0xfff))&0x3ffff; };
+
+  const MASKS=[(r,c)=>(r+c)%2==0,(r,c)=>r%2==0,(r,c)=>c%3==0,(r,c)=>(r+c)%3==0,
+    (r,c)=>(((r/2)|0)+((c/3)|0))%2==0,(r,c)=>(r*c)%2+(r*c)%3==0,
+    (r,c)=>((r*c)%2+(r*c)%3)%2==0,(r,c)=>((r+c)%2+(r*c)%3)%2==0];
+
+  function build(text){
+    const bytes=[...new TextEncoder().encode(text)];
+
+    let ver=0,cap=0;
+    for(let v=1;v<=20;v++){
+      const e=EC[v], dataCw=e[1]*e[2]+e[3]*e[4];
+      const cci = v<10?8:16;
+      if(dataCw*8 >= 4+cci+bytes.length*8){ ver=v; cap=dataCw; break; }
+    }
+    if(!ver) throw new Error("Conteudo grande demais para QR");
+
+    /* bitstream */
+    const bits=[];
+    const put=(val,len)=>{ for(let i=len-1;i>=0;i--) bits.push((val>>>i)&1); };
+    put(4,4);
+    put(bytes.length, ver<10?8:16);
+    bytes.forEach(b=>put(b,8));
+    for(let i=0;i<4 && bits.length<cap*8;i++) bits.push(0);
+    while(bits.length%8) bits.push(0);
+    const cw=[];
+    for(let i=0;i<bits.length;i+=8){
+      let b=0; for(let j=0;j<8;j++) b=(b<<1)|bits[i+j]; cw.push(b);
+    }
+    const PAD=[0xEC,0x11];
+    for(let i=0;cw.length<cap;i++) cw.push(PAD[i%2]);
+
+    /* blocos + Reed-Solomon */
+    const [ecn,b1,d1,b2,d2]=EC[ver];
+    const blocks=[],ecs=[]; let p=0;
+    for(let i=0;i<b1;i++){ const d=cw.slice(p,p+d1); p+=d1; blocks.push(d); ecs.push(rsEnc(d,ecn)); }
+    for(let i=0;i<b2;i++){ const d=cw.slice(p,p+d2); p+=d2; blocks.push(d); ecs.push(rsEnc(d,ecn)); }
+    const final=[];
+    const maxD=Math.max(d1,d2);
+    for(let i=0;i<maxD;i++) blocks.forEach(b=>{ if(i<b.length) final.push(b[i]); });
+    for(let i=0;i<ecn;i++) ecs.forEach(b=>final.push(b[i]));
+
+    /* matriz */
+    const N=ver*4+17;
+    const m=Array.from({length:N},()=>new Array(N).fill(null));
+    const fn=Array.from({length:N},()=>new Array(N).fill(false));
+    const setF=(r,c,v)=>{ if(r>=0&&r<N&&c>=0&&c<N){ m[r][c]=v; fn[r][c]=true; } };
+
+    const finder=(r,c)=>{
+      for(let i=-1;i<=7;i++) for(let j=-1;j<=7;j++){
+        const on=(i>=0&&i<=6&&(j==0||j==6))||(j>=0&&j<=6&&(i==0||i==6))||
+                 (i>=2&&i<=4&&j>=2&&j<=4);
+        setF(r+i,c+j,on?1:0);
+      }
+    };
+    finder(0,0); finder(0,N-7); finder(N-7,0);
+
+    for(const a of ALIGN[ver]) for(const b of ALIGN[ver]){
+      if((a<=7&&b<=7)||(a<=7&&b>=N-8)||(a>=N-8&&b<=7)) continue;
+      for(let i=-2;i<=2;i++) for(let j=-2;j<=2;j++)
+        setF(a+i,b+j,(Math.max(Math.abs(i),Math.abs(j))!=1)?1:0);
+    }
+    for(let i=8;i<N-8;i++){ setF(6,i,i%2==0?1:0); setF(i,6,i%2==0?1:0); }
+    /* reserva a area de formato -- preenchida depois, uma vez por mascara */
+    for(let i=0;i<=8;i++){ if(i!==6){ setF(8,i,0); setF(i,8,0); } }
+    for(let i=0;i<8;i++){ setF(8,N-1-i,0); setF(N-1-i,8,0); }
+    setF(N-8,8,1);                                  // modulo escuro fixo
+    if(ver>=7) for(let i=0;i<18;i++){               // reserva info de versao
+      const a=N-11+i%3, b=(i/3)|0; setF(b,a,0); setF(a,b,0);
+    }
+
+    /* dados em zigue-zague */
+    let bi=0, up=true;
+    for(let col=N-1;col>0;col-=2){
+      if(col==6) col--;
+      for(let k=0;k<N;k++){
+        const row = up ? N-1-k : k;
+        for(let z=0;z<2;z++){
+          const c=col-z;
+          if(fn[row][c]) continue;
+          let bit=0;
+          if(bi<final.length*8) bit=(final[bi>>3]>>>(7-(bi&7)))&1;
+          m[row][c]=bit; bi++;
+        }
+      }
+      up=!up;
+    }
+
+    /* penalidade para escolher a melhor máscara */
+    function penalty(g){
+      let s=0;
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+        for(const [dr,dc] of [[0,1],[1,0]]){
+          let n=1;
+          while(r+dr*n<N && c+dc*n<N && g[r+dr*n][c+dc*n]===g[r][c]) n++;
+          if(n>=5 && (dr? r==0||g[r-1][c]!==g[r][c] : c==0||g[r][c-1]!==g[r][c])) s+=3+(n-5);
+        }
+        if(r<N-1&&c<N-1&&g[r][c]===g[r][c+1]&&g[r][c]===g[r+1][c]&&g[r][c]===g[r+1][c+1]) s+=3;
+      }
+      let dark=0; g.forEach(r=>r.forEach(v=>dark+=v));
+      s += Math.floor(Math.abs(dark*20/(N*N)-10))*10;
+      return s;
+    }
+
+    let best=null,bestP=Infinity,bestMask=0;
+    for(let mk=0;mk<8;mk++){
+      const g=m.map((row,r)=>row.map((v,c)=>fn[r][c]?v:(v^(MASKS[mk](r,c)?1:0))));
+      const f=fmtBits(mk), fb=i=>(f>>>i)&1;
+      for(let i=0;i<=5;i++) g[i][8]=fb(i);
+      g[7][8]=fb(6); g[8][8]=fb(7); g[8][7]=fb(8);
+      for(let i=9;i<15;i++) g[8][14-i]=fb(i);
+      for(let i=0;i<8;i++) g[8][N-1-i]=fb(i);
+      for(let i=8;i<15;i++) g[N-15+i][8]=fb(i);
+      g[N-8][8]=1;
+      if(ver>=7){
+        const vb=verBits(ver);
+        for(let i=0;i<18;i++){ const bit=(vb>>>i)&1;
+          g[(i/3)|0][N-11+i%3]=bit; g[N-11+i%3][(i/3)|0]=bit; }
+      }
+      const p2=penalty(g);
+      if(p2<bestP){ bestP=p2; best=g; bestMask=mk; }
+    }
+    return best;
+  }
+
+  /* SVG nítido e escalável */
+  function svg(text,quiet=2){
+    const m=build(text), n=m.length, size=n+quiet*2;
+    let d="";
+    for(let r=0;r<n;r++) for(let c=0;c<n;c++)
+      if(m[r][c]) d+=`M${c+quiet} ${r+quiet}h1v1h-1z`;
+    return `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" `+
+      `shape-rendering="crispEdges" width="100%" height="100%">`+
+      `<rect width="${size}" height="${size}" fill="#FBF3E4"/>`+
+      `<path d="${d}" fill="#0C2340"/></svg>`;
+  }
+  return {build,svg};
+})();
+
+/* ==================================================================
+   MINI-3D — renderizador por software em canvas 2D.
+   Substitui o Three.js: zero dependência, roda em qualquer navegador.
+   ================================================================== */
+const G3=(function(){
+  const rotX=a=>[[1,0,0],[0,Math.cos(a),-Math.sin(a)],[0,Math.sin(a),Math.cos(a)]];
+  const rotY=a=>[[Math.cos(a),0,Math.sin(a)],[0,1,0],[-Math.sin(a),0,Math.cos(a)]];
+  const mv=(m,v)=>[m[0][0]*v[0]+m[0][1]*v[1]+m[0][2]*v[2],
+                   m[1][0]*v[0]+m[1][1]*v[1]+m[1][2]*v[2],
+                   m[2][0]*v[0]+m[2][1]*v[1]+m[2][2]*v[2]];
+  const mm=(a,b)=>a.map(r=>[0,1,2].map(j=>r[0]*b[0][j]+r[1]*b[1][j]+r[2]*b[2][j]));
+
+  function mesh(){ return {v:[],f:[]}; }
+  function push(M,verts,faces,col){
+    const o=M.v.length;
+    verts.forEach(p=>M.v.push(p));
+    faces.forEach(f=>M.f.push({i:f.map(i=>i+o),c:col}));
+  }
+  /* primitivas */
+  function lathe(M,profile,seg,col,oy=0){
+    const verts=[],faces=[];
+    for(let s=0;s<seg;s++){
+      const a=s/seg*Math.PI*2;
+      profile.forEach(([r,y])=>verts.push([Math.cos(a)*r,y+oy,Math.sin(a)*r]));
+    }
+    const P=profile.length;
+    for(let s=0;s<seg;s++){ const n=(s+1)%seg;
+      for(let p=0;p<P-1;p++)
+        faces.push([s*P+p, n*P+p, n*P+p+1, s*P+p+1]);
+    }
+    push(M,verts,faces,col);
+  }
+  function box(M,w,h,d,x,y,z,col){
+    const X=w/2,Y=h/2,D=d/2;
+    push(M,[[x-X,y-Y,z-D],[x+X,y-Y,z-D],[x+X,y+Y,z-D],[x-X,y+Y,z-D],
+            [x-X,y-Y,z+D],[x+X,y-Y,z+D],[x+X,y+Y,z+D],[x-X,y+Y,z+D]],
+      [[0,3,2,1],[4,5,6,7],[0,1,5,4],[2,3,7,6],[1,2,6,5],[0,4,7,3]],col);
+  }
+  function ring(M,R,r,seg,sid,cx,cy,cz,axis,col){
+    const verts=[],faces=[];
+    for(let i=0;i<seg;i++){ const a=i/seg*Math.PI*2;
+      for(let j=0;j<sid;j++){ const b=j/sid*Math.PI*2;
+        const rr=R+Math.cos(b)*r;
+        let p=[Math.cos(a)*rr,Math.sin(b)*r,Math.sin(a)*rr];
+        if(axis==="x") p=[p[1],p[0],p[2]];
+        if(axis==="z") p=[p[0],p[2],p[1]];
+        verts.push([p[0]+cx,p[1]+cy,p[2]+cz]);
+      }
+    }
+    for(let i=0;i<seg;i++){ const ni=(i+1)%seg;
+      for(let j=0;j<sid;j++){ const nj=(j+1)%sid;
+        faces.push([i*sid+j,ni*sid+j,ni*sid+nj,i*sid+nj]); } }
+    push(M,verts,faces,col);
+  }
+  function sphere(M,r,cx,cy,cz,seg,col,half){
+    const prof=[],N=14, top=half?Math.PI/2:Math.PI;
+    for(let i=0;i<=N;i++){ const a=i/N*top;
+      prof.push([Math.sin(a)*r, Math.cos(a)*r]); }
+    const Mt=mesh(); lathe(Mt,prof,seg,col);
+    push(M,Mt.v.map(p=>[p[0]+cx,p[1]+cy,p[2]+cz]),Mt.f.map(f=>f.i),col);
+  }
+  function cyl(M,rt,rb,h,cx,cy,cz,seg,col){
+    const Mt=mesh(); lathe(Mt,[[rt,h/2],[rb,-h/2]],seg,col);
+    push(M,Mt.v.map(p=>[p[0]+cx,p[1]+cy,p[2]+cz]),Mt.f.map(f=>f.i),col);
+  }
+
+  const GOLD=[201,151,0], GOLDHI=[233,196,90], STEEL=[30,66,114];
+
+  function render(ctx,M,rx,ry,W,H,dist,scale){
+    const R=mm(rotX(rx),rotY(ry));
+    const pts=M.v.map(p=>{
+      const q=mv(R,p), z=q[2]+dist, k=scale/Math.max(.35,z);
+      return [W/2+q[0]*k, H/2-q[1]*k, z];
+    });
+    const L=[.45,.72,.55];
+    const polys=[];
+    for(const f of M.f){
+      const idx=f.i;
+      const a=pts[idx[0]],b=pts[idx[1]],c=pts[idx[2]];
+      // backface cull via 2D winding
+      const cross=(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+      if(cross<=0) continue;
+      const w=M.v[idx[0]],w2=M.v[idx[1]],w3=M.v[idx[2]];
+      const u=[w2[0]-w[0],w2[1]-w[1],w2[2]-w[2]];
+      const v=[w3[0]-w[0],w3[1]-w[1],w3[2]-w[2]];
+      let n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+      const nl=Math.hypot(...n)||1; n=n.map(x=>x/nl);
+      const nr=mv(R,n);
+      let d=nr[0]*L[0]+nr[1]*L[1]+nr[2]*L[2];
+      const spec=Math.pow(Math.max(0,d),14);
+      d=.30+Math.max(0,d)*.78+spec*.65;
+      const z=idx.reduce((s,i)=>s+pts[i][2],0)/idx.length;
+      polys.push({idx,z,d,c:f.c});
+    }
+    polys.sort((p,q)=>q.z-p.z);
+    for(const p of polys){
+      const col=p.c||GOLD;
+      ctx.beginPath();
+      ctx.moveTo(pts[p.idx[0]][0],pts[p.idx[0]][1]);
+      for(let i=1;i<p.idx.length;i++) ctx.lineTo(pts[p.idx[i]][0],pts[p.idx[i]][1]);
+      ctx.closePath();
+      const s=Math.min(1.35,p.d);
+      ctx.fillStyle=`rgb(${Math.min(255,col[0]*s)|0},${Math.min(255,col[1]*s)|0},${Math.min(255,col[2]*s)|0})`;
+      ctx.fill();
+      ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=.7; ctx.stroke();
+    }
+  }
+  return {mesh,box,ring,sphere,cyl,lathe,render,GOLD,GOLDHI,STEEL};
+})();
+</script>
+<script>
+/* ==================================================================
+   ⚙️  CONFIGURAÇÃO — só isto precisa ser editado
+   ================================================================== */
+const PIX = {
+  chave : "himidio@nd.edu",       // ← CPF, telefone (+5562...), e-mail ou chave aleatória
+  nome  : "HEITOR IMIDIO",        // ← até 25 caracteres, sem acento
+  cidade: "GOIANIRA"              // ← até 15 caracteres, sem acento
+};
+
+/* Nao ha configuracao de banco aqui, de proposito.
+ *
+ * Quem guarda as reservas e o mural e a API que sobe junto com o site
+ * (backend/, servida em /api). O navegador so pergunta e pede — a chave, o
+ * preco de cada presente e a decisao de quem reservou primeiro ficam todos do
+ * lado do servidor. Assim ninguem com o console aberto reserva a bike de
+ * R$1.000 dizendo que pagou R$1, nem desmarca o presente de outra pessoa. */
+
+const DATA_EMBARQUE = "2026-08-18T07:30:00-03:00";
+
+/* 15 fotos. Salve os arquivos em assets/fotos/ com estes nomes e elas
+   aparecem sozinhas. Enquanto faltarem, a vaga mostra o que deve ir ali. */
+const PHOTOS = [
+  // hero
+  {src:"assets/fotos/01.jpg", cap:"No aeroporto"},
+  {src:"assets/fotos/02.jpg", cap:"A medalha"},
+  // galeria — 6n+1 sao os destaques quadrados, 6n as faixas largas
+  {src:"assets/fotos/03.jpg", cap:"O proximo voo"},
+  {src:"assets/fotos/04.jpg", cap:"Engenharia de verdade"},
+  {src:"assets/fotos/05.jpg", cap:"Dia de sol"},
+  {src:"assets/fotos/06.jpg", cap:"La atras"},
+  {src:"assets/fotos/07.jpg", cap:"MIT"},
+  {src:"assets/fotos/08.jpg", cap:"Levando o Brasil"},
+  {src:"assets/fotos/09.jpg", cap:"Assembleia Geral da ONU"},
+  {src:"assets/fotos/10.jpg", cap:"No palco"},
+  {src:"assets/fotos/11.jpg", cap:"Google"},
+  {src:"assets/fotos/12.jpg", cap:"Genebra"},
+  {src:"assets/fotos/13.jpg", cap:"Visita tecnica"},
+  {src:"assets/fotos/14.jpg", cap:"Sala de controle"},
+  {src:"assets/fotos/15.jpg", cap:"Traje de gala"},
+  {src:"assets/fotos/16.jpg", cap:"Boston"},
+  {src:"assets/fotos/17.jpg", cap:"Tapete vermelho"},
+  {src:"assets/fotos/18.jpg", cap:"Nas maos"},
+  {src:"assets/fotos/19.jpg", cap:"Entre um evento e outro"},
+  {src:"assets/fotos/20.jpg", cap:"No museu"},
+  // tira do rodape
+  {src:"assets/fotos/21.jpg", cap:"Representando"},
+  {src:"assets/fotos/22.jpg", cap:"Mesa de sempre"},
+  {src:"assets/fotos/23.jpg", cap:"A primeira neve"}
+];
+
+const GIFTS = [
+  {id:"g01",code:"ND-101",t:"Um café na Starbucks",v:50,
+   n:"O primeiro de muitos. Provavelmente às 6 da manhã, antes de uma prova."},
+  {id:"g02",code:"ND-102",t:"Um almoço no aeroporto",v:60,
+   n:"A última refeição em solo brasileiro, antes do portão de embarque."},
+  {id:"g03",code:"ND-103",t:"Um par de meias pro frio de Notre Dame",v:80,
+   n:"Indiana chega a -20°C. Isso aqui não é piada, é sobrevivência."},
+  {id:"g04",code:"ND-104",t:"Um lenço de lágrimas pra mamãe",v:40,
+   n:"Vai precisar de mais de um, sejamos honestos."},
+  {id:"g05",code:"ND-105",t:"Ingresso pro jogo no estádio de Notre Dame",v:500,
+   n:"80 mil pessoas cantando junto. Eu vou ser um deles."},
+  {id:"g06",code:"ND-106",t:"Um power bank pras 300 mensagens diárias da mãe",v:300,
+   n:"Bateria acabou não é desculpa aceita nesta família."},
+  {id:"g07",code:"ND-107",t:"Um cobertor quentinho pro dormitório",v:200,
+   n:"O aquecedor do dorm nunca é suficiente. Nunca."},
+  {id:"g08",code:"ND-108",t:'Um par de pantufas bem "lá ele"',v:200,
+   n:"Alguém da família vai comprar esse. A gente já sabe quem."},
+  {id:"g09",code:"ND-109",t:"Uma ajudinha pra voltar no Ano Novo dos Imídio",v:100,
+   n:"Dezembro. Passagem. Réveillon. Não me deixem de fora."},
+  {id:"g10",code:"ND-110",t:"Uma passagem de trem pra curtir a vista",v:500,
+   n:"Nem só de estudo vive o homem. Chicago fica a 2 horas."},
+  {id:"g11",code:"ND-111",t:"Um capacete de futebol americano",v:200,
+   n:"Pra mostrar a potência dos Imídio em solo americano."},
+  {id:"g12",code:"ND-112",t:"Uma bike pra andar no campus",v:1000,
+   n:"O campus tem 5 km². Ir a pé no inverno não é uma opção."},
+  {id:"g13",code:"ND-113",t:"Flores pra namorada, uma vez por mês",v:120,
+   n:"Distância a gente resolve. Esquecimento não tem perdão."},
+  {id:"g14",code:"ND-114",t:"Um iPad pra encher de conta de matemática",v:1990,
+   n:"Cálculo, termodinâmica e mecânica dos fluidos. Vai ser conta sem fim."},
+  {id:"g15",code:"ND-115",t:"Uma garrafa de água pra não passar sede",v:50,
+   n:"Campus de 5 km², aula do outro lado. O básico também salva."},
+  {id:"g16",code:"ND-116",t:"Ticket da lavanderia do dormitório",v:90,
+   n:"Pra chegar na aula cheirosinho. Ninguém merece o contrário."},
+  {id:"g17",code:"ND-117",t:"Camiseta do time de futebol americano",v:200,
+   n:"Fighting Irish no peito. Uniforme obrigatório de sábado."},
+  {id:"g18",code:"ND-118",t:"Um livro de física com problemas super \u201cfáceis\u201d",v:250,
+   n:"As aspas estão ali por um motivo. Reze por mim."},
+  {id:"g19",code:"ND-119",t:"Um kit de material escolar",v:150,
+   n:"Caderno, caneta, calculadora. O começo de tudo."},
+  {id:"g20",code:"ND-120",t:"Bagagem extra na volta, pra trazer presentes",v:700,
+   n:"Volto carregado. A mala de ida é minha, a de volta é de vocês."}
+];
+
+const CHALLENGES = [
+  {id:"c1",goal:600,  t:"Me jogo na piscina de roupa e tudo, na festa do dia 16."},
+  {id:"c2",goal:900,  t:"Gravo uma dancinha em frente ao Golden Dome."},
+  {id:"c3",goal:1200, t:"Convenço meu colega de quarto gringo a cantar Evidências inteira — com refrão e tudo."},
+  {id:"c4",goal:1500, t:"Faço pão de queijo na cozinha do dormitório e gravo a cara dos americanos provando."},
+  {id:"c5",goal:1900, t:"Canto o hino de Notre Dame traduzido pro português, em vídeo."},
+  {id:"c6",goal:2400, t:"Vou ao jogo no estádio pintado de verde e amarelo — e mando a foto."},
+  {id:"c7",goal:3000, final:true,
+   t:"Gravo um vídeo de agradecimento na frente do Golden Dome, falando o nome de cada um que participou."}
+];
+
+function lembrancinha(v){
+  if(v>=500) return "Camiseta oficial de Notre Dame + vídeo de agradecimento gravado no campus";
+  if(v>=300) return "Caneca oficial de Notre Dame trazida na mala de volta";
+  if(v>=150) return "Cartão-postal escrito à mão + polaroid do campus";
+  return "Cartão-postal de South Bend escrito à mão";
+}
+
+/* ==================================================================
+   PIX — gerador de BR Code (padrão EMV / Banco Central)
+   ================================================================== */
+const emv=(id,val)=>id+String(val.length).padStart(2,"0")+val;
+
+function crc16(s){
+  let c=0xFFFF;
+  for(let i=0;i<s.length;i++){
+    c^=s.charCodeAt(i)<<8;
+    for(let j=0;j<8;j++) c = (c&0x8000) ? ((c<<1)^0x1021)&0xFFFF : (c<<1)&0xFFFF;
+  }
+  return c.toString(16).toUpperCase().padStart(4,"0");
+}
+const clean=(s,n)=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+  .replace(/[^A-Za-z0-9 ]/g,"").replace(/\s+/g," ").trim().toUpperCase().slice(0,n);
+
+function pixPayload(valor,txid){
+  const gui = emv("00","br.gov.bcb.pix") + emv("01",PIX.chave);
+  let p = emv("00","01") + emv("01","11") + emv("26",gui)
+        + emv("52","0000") + emv("53","986")
+        + emv("54",Number(valor).toFixed(2))
+        + emv("58","BR")
+        + emv("59",clean(PIX.nome,25) || "RECEBEDOR")
+        + emv("60",clean(PIX.cidade,15) || "BRASIL")
+        + emv("62", emv("05", clean(txid,25) || "***"));
+  p += "6304";
+  return p + crc16(p);
+}
+const brl = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL",
+  minimumFractionDigits:0,maximumFractionDigits:0});
+
+/* ==================================================================
+   ESTADO — a API compartilhada e a fonte da verdade
+   ==================================================================
+   Regra de ouro: o site NUNCA pode quebrar por causa do backend. Se a API nao
+   existir (arquivo aberto direto, hospedagem sem funcoes) ou estiver fora do
+   ar, tudo continua funcionando com o que esta guardado neste aparelho — mas
+   avisando, em vez de fingir que todo mundo esta vendo a mesma coisa.
+
+   Enquanto a API responde, todos os aparelhos convergem: cada um pergunta "e a
+   versao N ainda?" de poucos em poucos segundos, e so recebe o estado inteiro
+   quando algo mudou de verdade. */
+const SERVICO   = "aniversario-heitor";
+const LS        = "heitor_nd_16ago";
+const INTERVALO = 8000;         // com o servidor no ar
+const INTERVALO_OFFLINE = 30000; // sem ele: pergunta bem menos
+
+let STATE = {taken:{},notes:[]};
+let REV    = null;   // versao do estado que este aparelho ja viu
+let ONLINE = null;   // null = ainda nao sei; true/false depois
+
+function loadLocal(){
+  try{ STATE = JSON.parse(localStorage.getItem(LS)) || STATE; }catch(e){}
+}
+function saveLocal(){
+  try{ localStorage.setItem(LS,JSON.stringify(STATE)); }catch(e){}
+}
+
+function definirOnline(v){
+  if(ONLINE===v) return;
+  ONLINE=v;
+  const aviso=document.getElementById("avisoOffline");
+  if(aviso) aviso.hidden = v!==false;
+}
+
+class ErroApi extends Error{
+  constructor(status,mensagem,dados){ super(mensagem); this.status=status; this.dados=dados||null; }
+}
+
+/* Chamada crua. So devolve dados que vieram comprovadamente da NOSSA API. */
+async function chamarApi(rota,{metodo="GET",corpo,tempoLimite=12000}={}){
+  if(typeof fetch!=="function") throw new ErroApi(0,"navegador sem fetch");
+
+  const ctrl = typeof AbortController!=="undefined" ? new AbortController() : null;
+  const relogio = ctrl ? setTimeout(()=>ctrl.abort(),tempoLimite) : null;
+
+  const cabecalhos = {accept:"application/json"};
+  if(corpo!==undefined) cabecalhos["content-type"]="application/json";
+
+  let r;
+  try{
+    r = await fetch("/api/"+rota,{
+      method:metodo,
+      headers:cabecalhos,
+      body: corpo===undefined?undefined:JSON.stringify(corpo),
+      cache:"no-store",
+      credentials:"same-origin",
+      signal: ctrl?ctrl.signal:undefined
+    });
+  }catch(e){
+    definirOnline(false);
+    throw new ErroApi(0,"nao consegui falar com o servidor");
+  }finally{ if(relogio) clearTimeout(relogio); }
+
+  // Hospedagem sem funcoes devolve o index.html — com status 200 — para
+  // qualquer caminho que nao existe, /api inclusive. Isso NAO e a nossa API.
+  if(!(r.headers.get("content-type")||"").includes("application/json")){
+    definirOnline(false);
+    throw new ErroApi(0,"esta hospedagem nao tem o backend no ar");
+  }
+
+  let d;
+  try{ d = await r.json(); }
+  catch(e){ definirOnline(false); throw new ErroApi(0,"resposta invalida do servidor"); }
+
+  if(!d || d.servico!==SERVICO){
+    definirOnline(false);
+    throw new ErroApi(0,"quem respondeu /api nao e o backend do site");
+  }
+  if(r.status===503){
+    definirOnline(false);
+    throw new ErroApi(503,d.erro||"servidor indisponivel",d);
+  }
+
+  // Chegou resposta nossa: o backend existe. Um 409 ou 400 e erro de uso,
+  // nao de disponibilidade — por isso o online vem antes do if(!r.ok).
+  definirOnline(true);
+  if(!r.ok) throw new ErroApi(r.status,d.erro||"nao consegui completar",d);
+  return d;
+}
+
+/* Pergunta o que mudou. Manda a rev que ja temos: quase sempre a resposta e um
+   "sem mudanca" de 100 bytes, e nem sequer re-renderiza a tela. */
+async function sincronizar(){
+  try{
+    const d = await chamarApi("estado"+(REV==null?"":"?rev="+encodeURIComponent(REV)));
+    REV = d.rev;
+    if(d.semMudanca) return true;
+    STATE.taken = d.reservas || {};
+    STATE.notes = (d.recados||[]).map(n=>({who:n.nome,text:n.texto,gift:n.presente,ts:n.ts}));
+    renderAll(); renderWall();
+    return true;
+  }catch(e){ return false; }
+}
+
+/* Mantem todos os aparelhos vendo a mesma meta.
+ *
+ * So pergunta com a aba visivel — nao adianta gastar bateria de celular no
+ * bolso — e pergunta na hora ao voltar para a aba, que e quando a pessoa
+ * realmente olha para a tela. */
+async function iniciarSincronia(){
+  const veio = await sincronizar();
+  if(!veio) loadLocal();
+  renderAll(); renderWall();
+
+  let timer=null;
+  const parar   = ()=>{ if(timer){ clearTimeout(timer); timer=null; } };
+  const agendar = ()=>{
+    parar();
+    if(document.hidden) return;
+    timer = setTimeout(async()=>{
+      if(!document.hidden) await sincronizar();
+      agendar();
+    }, ONLINE===false ? INTERVALO_OFFLINE : INTERVALO);
+  };
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden) parar();
+    else { sincronizar().then(agendar); }
+  });
+  window.addEventListener("focus",()=>{ sincronizar(); });
+  agendar();
+}
+
+/* Reserva pelo backend.
+ *
+ * O navegador manda apenas o id do presente: quem decide o valor e monta o
+ * codigo Pix e o servidor. Retorna { ok, erro?, conflito?, pix?, local? } —
+ * nunca lanca, para o chamador poder mostrar a mensagem certa. */
+async function reserve(gift,who,text){
+  const corpo = {
+    presenteId: gift.free ? "livre" : gift.id,
+    nome: who,
+    recado: text || ""
+  };
+  if(gift.free) corpo.valor = gift.v;
+
+  let d;
+  try{
+    d = await chamarApi("reservar",{metodo:"POST",corpo,tempoLimite:20000});
+  }catch(e){
+    if(e.status===409) return { ok:false, conflito:true, erro:e.message };
+    if(e.status===0 || e.status===503){
+      // Sem servidor alcancavel. Registra so neste aparelho para o site nao
+      // travar — e o chamador avisa que ficou so aqui.
+      STATE.taken[gift.id]={who:who,ts:Date.now(),v:gift.v};
+      if(text) STATE.notes.unshift({who:who,text:text,gift:gift.t,ts:Date.now()});
+      saveLocal(); renderAll(); renderWall();
+      return { ok:true, local:true };
+    }
+    return { ok:false, erro:e.message };
+  }
+
+  // Aparece na hora para quem reservou; a sincronia logo em seguida traz
+  // tambem o que os outros aparelhos fizeram nesse meio-tempo.
+  STATE.taken[gift.id]={who:who,ts:Date.now(),v:d.valor};
+  if(text) STATE.notes.unshift({who:who,text:text,gift:gift.t,ts:Date.now()});
+  renderAll(); renderWall();
+  sincronizar();
+  return { ok:true, pix:d.pix, valor:d.valor };
+}
+
+/* ==================================================================
+   RENDER
+   ================================================================== */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function renderGrid(){
+  $("#grid").innerHTML = GIFTS.map((g,i)=>{
+    const tk = STATE.taken[g.id];
+    return `<article class="pass rv ${tk?"taken":""}" data-id="${g.id}" data-obj="${g.obj}"
+              style="transition-delay:${(i%3)*70}ms">
+      <div class="badge">Reservado</div>
+      <div class="pass-top">
+        <div class="route">GYN <b>→</b> SBN</div>
+        <div class="code">${g.code}</div>
+      </div>
+      <div class="tear"></div>
+      <div class="pass-body">
+        <h3>${esc(g.t)}</h3>
+        <p class="gift-note">${esc(g.n)}</p>
+        <p class="lembra">↩<em>Você recebe: ${esc(lembrancinha(g.v))}</em></p>
+        <div class="pass-foot">
+          <div class="price"><small>R$</small>${g.v.toLocaleString("pt-BR")}</div>
+          <button class="buy">${tk?"Escolhido":"Presentear"}</button>
+        </div>
+        <div class="by">Presente de ${tk?esc(tk.who||"alguém"):""}</div>
+      </div>
+    </article>`;
+  }).join("") + `<article class="pass free wide rv" data-free="1">
+      <div class="pass-top">
+        <div class="route">GYN <b>&#8594;</b> SBN</div>
+        <div class="code">ND-000</div>
+      </div>
+      <div class="tear"></div>
+      <div class="pass-body">
+        <h3>Nenhum desses? Escolha o seu valor.</h3>
+        <p class="gift-note">Se voc&#234; preferir mandar outro valor &#8212; maior, menor,
+          o que couber &#8212; d&#225; na mesma. Vale como presente e entra no mural igual.</p>
+        <div class="pass-foot">
+          <div class="price"><small>R$</small>&#8226; &#8226; &#8226;</div>
+          <button class="buy">Definir valor</button>
+        </div>
+      </div>
+    </article>`;
+  bindCards();
+}
+
+function renderTotals(){
+  const ids=Object.keys(STATE.taken||{});
+  const total=ids.reduce((s,k)=>{
+    const g=GIFTS.find(x=>x.id===k); return s+(g?g.v:(STATE.taken[k].v||0));
+  },0);
+  const max=GIFTS.reduce((s,g)=>s+g.v,0);
+  $("#raised").textContent=brl(total);
+  const chosen=ids.filter(k=>GIFTS.some(g=>g.id===k)).length;
+  $("#count").innerHTML=chosen+'<span style="color:var(--slate);font-size:.5em">/'+GIFTS.length+'</span>';
+  $("#barFill").style.width=Math.min(100,(total/max)*100)+"%";
+  renderChallenges(total);
+}
+
+function renderChallenges(total){
+  $("#chalGrid").innerHTML = CHALLENGES.map(c=>{
+    const pct=Math.min(100,(total/c.goal)*100), hit=total>=c.goal;
+    return `<div class="chal rv ${hit?"hit":""} ${c.final?"final":""}">
+      <div class="done">&#10003; Desbloqueado &#8212; vou ter que cumprir</div>
+      ${c.final?'<div class="mono" style="color:var(--gold)">Meta final</div>':""}
+      <h3>${esc(c.t)}</h3>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="goal"><span>${brl(total)} de ${brl(c.goal)}</span><b>${Math.round(pct)}%</b></div>
+    </div>`;
+  }).join("");
+  observe();
+}
+
+function renderWall(){
+  const n=STATE.notes||[];
+  $("#wallEmpty").style.display="none";
+  const cards = n.map(m=>`<div class="note rv">
+      <p>&#8220;${esc(m.text)}&#8221;</p>
+      <div class="who">${esc(m.who||"An\u00f4nimo")}</div>
+      <div class="what">${esc(m.gift||"")}</div>
+    </div>`);
+  const grow = n.length<3 ? " grow" : "";
+  cards.push(`<div class="note invite rv${grow}">
+      <div class="mono" style="color:var(--gold)">${n.length?"Deixe o seu tamb\u00e9m":"Seja o primeiro"}</div>
+      <p style="margin:0;font-size:17px">${n.length
+        ? "Todo presente vem com espa\u00e7o pra um recado. Esse mural \u00e9 o que eu levo na bagagem."
+        : "Ainda n\u00e3o tem nenhum recado aqui. Escolha um presente e escreva a primeira mensagem."}</p>
+      <a href="#presentes" class="pill" style="align-self:flex-start">Ver presentes</a>
+    </div>`);
+  $("#wall").innerHTML=cards.join("");
+  observe();
+}
+function renderAll(){ renderGrid(); renderTotals(); observe(); }
+
+/* ==================================================================
+   MODAL
+   ================================================================== */
+let current=null;
+function paintPix(value,txid){
+  const configured = PIX.chave && !PIX.chave.startsWith("SUA-CHAVE");
+  const box=$("#qr"); box.innerHTML="";
+  $("#mPrice").textContent=brl(value);
+  if(!configured){
+    $("#brcode").value="Chave Pix ainda nao configurada no site";
+    $("#copyBtn").disabled=true;
+    $("#pixInfo").textContent="Falta cadastrar a chave Pix no arquivo (constante PIX, no topo do script).";
+    box.innerHTML='<div style="display:grid;place-items:center;height:100%;'+
+      'color:#0C2340;font-family:var(--f-mono);font-size:10px;text-align:center;'+
+      'letter-spacing:.1em;padding:14px">QR CODE APARECE<br>QUANDO A CHAVE PIX<br>FOR CADASTRADA</div>';
+    return;
+  }
+  const payload=pixPayload(value,txid);
+  $("#brcode").value=payload;
+  $("#copyBtn").disabled=false;
+  $("#pixInfo").textContent="Pix de "+brl(value)+" para "+PIX.nome+
+    " \u00b7 o valor j\u00e1 vai preenchido no c\u00f3digo.";
+  try{ box.innerHTML=QR.svg(payload); }
+  catch(e){ box.innerHTML='<div style="display:grid;place-items:center;height:100%;'+
+    'color:#B3122B;font-family:var(--f-mono);font-size:10px;text-align:center;padding:14px">'+
+    esc(e.message)+'</div>'; }
+}
+function openModal(g){
+  current={...g};
+  $("#mCode").textContent=g.code+" \u00b7 GYN \u2192 SBN";
+  $("#mTitle").textContent=g.t;
+  $("#nome").value=""; $("#msg").value="";
+  $("#mBody").style.display="block"; $("#mDone").style.display="none";
+  $("#freeWrap").style.display = g.free ? "block" : "none";
+  if(g.free) $("#freeVal").value=String(g.v);
+  paintPix(g.v,g.code);
+  $("#modal").classList.add("on"); document.body.classList.add("locked");
+}
+function closeModal(){
+  $("#modal").classList.remove("on"); document.body.classList.remove("locked");
+  $("#mBody").scrollTop=0;
+}
+function toast(t){ const el=$("#toast"); el.textContent=t; el.classList.add("on");
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),2400); }
+
+function bindCards(){
+  $$(".pass").forEach(card=>{
+    const free=card.dataset.free==="1";
+    const g=free
+      ? {id:"free",code:"ND-000",t:"Presente de valor livre",v:150,free:true}
+      : GIFTS.find(x=>x.id===card.dataset.id);
+    card.querySelector(".buy").addEventListener("click",()=>{
+      if(free || !STATE.taken[g.id]) openModal(g);
+    });
+    // subtle 3D tilt
+    card.addEventListener("mousemove",e=>{
+      if(window.innerWidth<900) return;
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-5;
+      const ry=((e.clientX-r.left)/r.width-.5)*5;
+      card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`;
+    });
+    card.addEventListener("mouseleave",()=>{ card.style.transform=""; hideReveal(); });
+    card.addEventListener("mouseenter",()=>{ showReveal(); });
+  });
+}
+
+function applyFree(){
+  let v=parseInt(String($("#freeVal").value).replace(/\D/g,""),10);
+  if(!v||v<1){ v=1; }
+  if(v>99999) v=99999;
+  $("#freeVal").value=String(v);
+  current.v=v;
+  paintPix(v,"ND-000");
+}
+$("#freeApply").addEventListener("click",applyFree);
+$("#freeVal").addEventListener("keydown",e=>{ if(e.key==="Enter"){e.preventDefault();applyFree();} });
+$("#mClose").addEventListener("click",closeModal);
+$("#modal").addEventListener("click",e=>{ if(e.target.id==="modal") closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+$("#copyBtn").addEventListener("click",()=>{
+  const v=$("#brcode").value;
+  navigator.clipboard?.writeText(v).then(()=>toast("Código Pix copiado"))
+    .catch(()=>{ $("#brcode").select(); document.execCommand("copy"); toast("Copiado"); });
+});
+
+$("#confirm").addEventListener("click",async()=>{
+  if(!current) return;
+  const botao=$("#confirm");
+  const who=$("#nome").value.trim();
+  if(!who){ $("#nome").focus(); toast("Escreve seu nome primeiro"); return; }
+
+  const entry = current.free
+    ? {...current, id:"free_"+Date.now()}
+    : current;
+
+  // Trava o botao enquanto vai e volta, senao dois cliques viram duas reservas.
+  const rotulo=botao.textContent;
+  botao.disabled=true; botao.textContent="Registrando...";
+  let res;
+  try{ res = await reserve(entry,who,$("#msg").value.trim()); }
+  finally{ botao.disabled=false; botao.textContent=rotulo; }
+
+  if(!res.ok){
+    if(res.conflito){
+      // O pagamento ja foi feito antes deste clique. O dinheiro chegou; o que
+      // se perdeu foi a marcacao deste presente. Ser honesto sobre isso.
+      toast("Alguem reservou esse presente primeiro. Seu Pix chegou do mesmo "+
+            "jeito — fala com o Heitor pra escolherem outro.");
+    }else{
+      toast(res.erro || "Nao consegui registrar. Tenta de novo.");
+    }
+    return;
+  }
+
+  // Troca de painel — o formulário continua no DOM para o próximo presente.
+  $("#doneMsg").textContent = res.local
+    ? "Obrigado, "+who+". Anotei aqui neste aparelho — quando o site estiver "+
+      "no ar, seu recado aparece pra todo mundo."
+    : "Obrigado, "+who+". Seu recado já está no mural e o "+
+      "presente saiu da lista pra todo mundo.";
+  $("#mBody").style.display="none";
+  $("#mDone").style.display="block";
+  $(".sheet").scrollTop=0;
+});
+$("#doneClose").addEventListener("click",closeModal);
+
+/* ==================================================================
+   COUNTDOWN
+   ================================================================== */
+(function cd(){
+  const el=$("#cd"), target=new Date(DATA_EMBARQUE).getTime();
+  (function tick(){
+    const d=target-Date.now();
+    if(d<=0){ el.textContent="É HOJE"; return; }
+    const dd=Math.floor(d/864e5), hh=Math.floor(d%864e5/36e5), mm=Math.floor(d%36e5/6e4);
+    el.textContent = dd>0 ? dd+"d "+hh+"h" : hh+"h "+mm+"m";
+    setTimeout(tick,30000);
+  })();
+})();
+
+/* ==================================================================
+   TEXTPRESSURE — hero headline reacts to the cursor
+   ================================================================== */
+(function textPressure(){
+  const h=$("#tp"), txt=h.textContent.trim();
+  h.textContent="";
+  const spans=[...txt].map(ch=>{
+    const s=document.createElement("span"); s.textContent=ch; h.appendChild(s); return s;
+  });
+  let mx=innerWidth/2,my=innerHeight/3,cx=mx,cy=my;
+  addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
+  addEventListener("touchmove",e=>{const t=e.touches[0];mx=t.clientX;my=t.clientY},{passive:true});
+  (function loop(){
+    cx+=(mx-cx)/14; cy+=(my-cy)/14;
+    const hr=h.getBoundingClientRect(), max=hr.width/2||1;
+    spans.forEach(s=>{
+      const r=s.getBoundingClientRect();
+      const d=Math.hypot(cx-(r.x+r.width/2), cy-(r.y+r.height/2));
+      const f=Math.max(0,1-d/max);
+      s.style.transform=`scaleY(${1+f*.16}) translateY(${-f*6}px)`;
+      s.style.opacity=String(.62+f*.38);
+      s.style.color = f>.55 ? "var(--gold-hi)" : "";
+    });
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ==================================================================
+   CURSOR
+   ================================================================== */
+(function cursor(){
+  if(matchMedia("(hover:none)").matches) return;
+  const c=$("#cur"), d=$("#curDot");
+  let x=0,y=0,tx=0,ty=0;
+  let seen=false;
+  addEventListener("mousemove",e=>{
+    tx=e.clientX;ty=e.clientY;
+    if(!seen){ seen=true; x=tx; y=ty; document.body.classList.add("pointing"); }
+    d.style.transform=`translate(${tx-2}px,${ty-2}px)`;
+  });
+  (function l(){ x+=(tx-x)/6; y+=(ty-y)/6;
+    c.style.transform=`translate(${x-17}px,${y-17}px)`; requestAnimationFrame(l); })();
+  document.addEventListener("mouseover",e=>{
+    c.classList.toggle("big", !!e.target.closest("a,button,.pass,#stage"));
+  });
+})();
+
+/* ==================================================================
+   GOLD DUST — ambient particle field reacting to the cursor
+   ================================================================== */
+(function dust(){
+  const cv=$("#dust"),ctx=cv.getContext("2d");
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  let W,H,ps=[],mx=-999,my=-999;
+  const N = innerWidth<760 ? 32 : 80;
+  function size(){ W=cv.width=innerWidth; H=cv.height=innerHeight; }
+  size(); addEventListener("resize",size);
+  addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
+  for(let i=0;i<N;i++) ps.push({x:Math.random()*W,y:Math.random()*H,
+    r:Math.random()*1.5+.4,vx:(Math.random()-.5)*.16,vy:(Math.random()-.5)*.16,
+    a:Math.random()*.5+.12});
+  (function f(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      const dx=p.x-mx,dy=p.y-my,dd=Math.hypot(dx,dy);
+      if(dd<130){ p.x+=dx/dd*1.1; p.y+=dy/dd*1.1; }
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.284);
+      ctx.fillStyle=`rgba(201,151,0,${p.a})`; ctx.fill();
+    });
+    requestAnimationFrame(f);
+  })();
+})();
+
+/* ==================================================================
+   PORTAL — scroll-driven aperture
+   ================================================================== */
+(function portal(){
+  const sec=$(".portal"), a=$("#pA"), bL=$(".portal-b"), rings=$$(".ring");
+  const tA=$("#pAtext"), tB=$("#pBtext");
+  // Sem isto os dois títulos aparecem sobrepostos no meio da travessia e
+  // nenhum dos dois fica legível. A troca é feita em relevo, não em cruzamento.
+  const ramp=(v,lo,hi)=>{ const t=Math.min(1,Math.max(0,(v-lo)/(hi-lo)));
+    return t*t*(3-2*t); };
+  const sync=()=>{
+    const r=sec.getBoundingClientRect();
+    const total=Math.max(1,sec.offsetHeight-innerHeight);
+    let p=Math.min(1,Math.max(0,-r.top/total));
+    // o portal abre do centro para fora ate cobrir a tela inteira
+    const rad = Math.pow(p,.8)*150;
+    bL.style.clipPath=`circle(${rad}% at 50% 50%)`;
+    tA.style.opacity=String(1-ramp(p,.06,.34));
+    tB.style.opacity=String(ramp(p,.40,.72));
+    rings.forEach((el,i)=>{
+      el.style.transform=`scale(${1+p*(1.6+i*.5)}) rotate(${p*(40+i*24)}deg)`;
+      el.style.opacity=String(Math.max(0,1-p*1.15));
+    });
+  };
+  addEventListener("scroll",sync,{passive:true});
+  addEventListener("resize",sync,{passive:true});
+  sync();
+})();
+
+/* ==================================================================
+   3D PRODUCT ANIMATION + OBJECT REVEAL ON HOVER
+   Renderizado pelo mini-motor G3 (canvas 2D, sem bibliotecas).
+   ================================================================== */
+
+/* --- a mala: um objeto so, usado como cursor sobre os presentes --- */
+const LEATHER=[142,96,52], LEATHER_D=[104,68,36];
+
+function buildSuitcase(){
+  const M=G3.mesh(), G=G3.GOLD, H=G3.GOLDHI, L=LEATHER, D=LEATHER_D;
+  // corpo, em duas metades para dar a linha de fechamento
+  G3.box(M,1.30,0.46,0.44, 0, 0.20,0, L);
+  G3.box(M,1.30,0.44,0.44, 0,-0.24,0, D);
+  G3.box(M,1.34,0.06,0.48, 0,-0.02,0, H);      // friso central
+  // cantoneiras
+  [-0.60,0.60].forEach(x=>[-0.40,0.42].forEach(y=>
+    G3.box(M,0.12,0.12,0.48,x,y,0,H)));
+  // cintas de couro
+  [-0.34,0.34].forEach(x=>G3.box(M,0.11,0.94,0.47,x,0,0,D));
+  [-0.34,0.34].forEach(x=>G3.box(M,0.07,0.94,0.49,x,0,0,H));
+  // alca
+  G3.box(M,0.07,0.20,0.07,-0.20,0.52,0,H);
+  G3.box(M,0.07,0.20,0.07, 0.20,0.52,0,H);
+  G3.box(M,0.48,0.08,0.10, 0,0.62,0,D);
+  // fechos
+  [-0.20,0.20].forEach(x=>G3.box(M,0.14,0.10,0.50,x,-0.02,0,H));
+  return M;
+}
+/* --- Golden Dome interativo (3D Product Animation) --- */
+(function stage(){
+  const cv=$("#stage"); if(!cv) return;
+  const ctx=cv.getContext("2d");
+  const G=G3.GOLD,H=G3.GOLDHI,S=G3.STEEL;
+
+  const D=G3.mesh();
+  G3.sphere(D,1.05,0,0,0,30,G,true);                 // cúpula
+  G3.lathe(D,[[1.05,.0],[1.10,-.30],[1.18,-.62]],30,G);// tambor
+  G3.cyl(D,1.30,1.44,.26,0,-.76,0,30,S);              // base
+  for(let i=0;i<16;i++){ const a=i/16*Math.PI*2;
+    G3.cyl(D,.055,.055,.60,Math.cos(a)*1.16,-.34,Math.sin(a)*1.16,8,H); }
+  G3.lathe(D,[[.20,1.26],[.26,1.00]],20,H);           // lanterna
+  G3.cyl(D,.045,.045,.50,0,1.48,0,8,H);               // mastro
+  G3.sphere(D,.15,0,1.86,0,14,H);                     // estátua
+
+  let rx=-.12,ry=0,tx=-.12,ty=0,drag=false,px=0,py=0,dist=5.4,tdist=5.4;
+  const pt=e=>e.touches?e.touches[0]:e;
+  cv.addEventListener("mousedown",e=>{drag=true;px=e.clientX;py=e.clientY});
+  cv.addEventListener("touchstart",e=>{const c=pt(e);drag=true;px=c.clientX;py=c.clientY},{passive:true});
+  addEventListener("mouseup",()=>drag=false);
+  cv.addEventListener("touchend",()=>drag=false);
+  const move=e=>{
+    const c=pt(e);
+    if(drag){ ty+=(c.clientX-px)*.009; tx+=(c.clientY-py)*.006;
+      tx=Math.max(-.8,Math.min(.8,tx)); px=c.clientX; py=c.clientY; }
+    else if(!e.touches){ const r=cv.getBoundingClientRect();
+      if(c.clientX>r.left&&c.clientX<r.right&&c.clientY>r.top&&c.clientY<r.bottom)
+        ty+=((c.clientX-r.left)/r.width-.5)*.012; }
+  };
+  addEventListener("mousemove",move);
+  cv.addEventListener("touchmove",move,{passive:true});
+  cv.addEventListener("wheel",e=>{e.preventDefault();
+    tdist=Math.max(3.6,Math.min(8.5,tdist+e.deltaY*.004));},{passive:false});
+
+  let W=0,Hh=0,dpr=Math.min(devicePixelRatio||1,2);
+  function size(){
+    W=cv.clientWidth||400; Hh=cv.clientHeight||400;
+    cv.width=W*dpr; cv.height=Hh*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  new ResizeObserver(size).observe(cv); size();
+
+  let vis=true;
+  new IntersectionObserver(e=>vis=e[0].isIntersecting,{threshold:.01}).observe(cv);
+
+  const dust=[];
+  for(let i=0;i<70;i++){ const a=Math.random()*6.28,r=1.9+Math.random()*1.6;
+    dust.push([Math.cos(a)*r,(Math.random()-.5)*2.6,Math.sin(a)*r]); }
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(!vis||!W) return;
+    ty+=.0022; rx+=(tx-rx)*.08; ry+=(ty-ry)*.08; dist+=(tdist-dist)*.08;
+    ctx.clearRect(0,0,W,Hh);
+    const sc=Math.min(W,Hh)*.52;
+
+    // poeira dourada orbitando atrás
+    const cs=Math.cos(ry),sn=Math.sin(ry);
+    ctx.fillStyle="rgba(201,151,0,.5)";
+    dust.forEach(p=>{
+      const x=p[0]*cs+p[2]*sn, z=-p[0]*sn+p[2]*cs+dist;
+      if(z<.4) return;
+      const k=sc/z;
+      ctx.beginPath(); ctx.arc(W/2+x*k,Hh/2-p[1]*k,Math.max(.5,1.6*k/sc*22),0,6.28); ctx.fill();
+    });
+
+    G3.render(ctx,D,rx,ry,W,Hh,dist,sc);
+    ctx.save();
+    ctx.globalCompositeOperation="lighter";
+    const g=ctx.createRadialGradient(W/2,Hh*.42,0,W/2,Hh*.42,sc*1.25);
+    g.addColorStop(0,"rgba(201,151,0,.16)"); g.addColorStop(1,"rgba(201,151,0,0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,Hh);
+    ctx.restore();
+  })();
+})();
+
+/* --- Object Reveal on Hover: painel 3D que segue o cursor --- */
+const Reveal=(function(){
+  const cv=$("#reveal");
+  if(!cv||matchMedia("(hover:none)").matches) return {show(){},hide(){}};
+  const ctx=cv.getContext("2d");
+  const dpr=Math.min(devicePixelRatio||1,2), SZ=168;
+  cv.width=SZ*dpr; cv.height=SZ*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  let M=null,on=false,x=0,y=0,tx=0,ty=0,ry=0;
+  addEventListener("mousemove",e=>{ tx=e.clientX+16; ty=e.clientY-84; });
+  (function l(){
+    requestAnimationFrame(l);
+    x+=(tx-x)/7; y+=(ty-y)/7;
+    cv.style.transform=`translate(${x}px,${y}px) scale(${on?1:.82})`;
+    if(!on||!M) return;
+    ry+=.019;
+    ctx.clearRect(0,0,SZ,SZ);
+    G3.render(ctx,M,Math.sin(Date.now()*.0011)*.20-.12,ry,SZ,SZ,2.75,SZ*.62);
+  })();
+  const MALA=buildSuitcase();
+  return {
+    show(){
+      M=MALA;
+      if(!on){ x=tx; y=ty; }        // aparece junto ao cursor, sem deslizar da origem
+      on=true; cv.classList.add("on");
+      document.body.classList.add("mala");   // esconde o anel: a mala vira o cursor
+    },
+    hide(){ on=false; cv.classList.remove("on");
+      document.body.classList.remove("mala"); }
+  };
+})();
+const showReveal=k=>Reveal.show(k), hideReveal=()=>Reveal.hide();
+
+/* ==================================================================
+   SCROLL REVEALS · NAV · MENU
+   ================================================================== */
+let io=null;
+function observe(){
+  if(!io) io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+  }),{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+  $$(".rv:not(.in)").forEach(el=>io.observe(el));
+}
+addEventListener("scroll",()=>{
+  $("#hd").classList.toggle("stuck",scrollY>60);
+},{passive:true});
+
+$("#burger").addEventListener("click",()=>{
+  $("#burger").classList.toggle("on"); $("#nav").classList.toggle("open");
+  document.body.classList.toggle("locked",$("#nav").classList.contains("open"));
+});
+$$("#nav a").forEach(a=>a.addEventListener("click",()=>{
+  $("#burger").classList.remove("on"); $("#nav").classList.remove("open");
+  document.body.classList.remove("locked");
+}));
+
+/* Vídeo da hero — autoplay silencioso, com tolerância a celular.
+   iOS/Android só permitem autoplay se o vídeo for muted + playsinline (já é),
+   e ainda assim o Modo de Pouca Energia do iPhone bloqueia. Nesses casos
+   retomamos na primeira interação do usuário. */
+(function vid(){
+  const v=$("#heroVid"); if(!v) return;
+
+  // Economia de dados ou rede muito lenta: nem baixa os 20 MB.
+  // A hero tem animação própria por baixo, então nada fica vazio.
+  const net=navigator.connection;
+  if(net && (net.saveData || /(^|-)2g$/.test(net.effectiveType||""))){ v.remove(); return; }
+
+  // Só esconde se TODAS as fontes falharem. O handler anterior usava captura e
+  // escondia o vídeo assim que a primeira <source> falhava, mesmo com a
+  // segunda (o CDN) funcionando — bastava o arquivo local faltar.
+  v.addEventListener("error",()=>{ v.style.display="none"; });
+
+  const tocar=()=>{ const p=v.play?.(); if(p&&p.catch) p.catch(()=>{}); };
+  tocar();
+
+  // Retoma na primeira interação e ao voltar para a aba.
+  const retomar=()=>{ if(v.paused) tocar(); };
+  ["touchstart","pointerdown","click","keydown"].forEach(ev=>
+    addEventListener(ev,retomar,{once:true,passive:true}));
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) retomar(); });
+
+  // Alguns navegadores móveis pausam ao sair da tela; religa quando volta.
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) retomar(); }),
+      {threshold:0}).observe(v);
+  }
+})();
+
+/* ==================================================================
+   FOTOS — monta as vagas e some com o placeholder quando a imagem carrega
+   ================================================================== */
+function renderPhotos(){
+  const mk=(i)=>{
+    const ph=PHOTOS[i]; if(!ph) return "";
+    return `<figure class="ph empty rv" data-i="${i}" style="margin:0">
+        <img alt="${esc(ph.cap)}" loading="${i<2?"eager":"lazy"}" data-src="${esc(ph.src)}">
+        <figcaption class="cap">${esc(ph.cap)}</figcaption>
+        <div class="slot"><b>FOTO ${String(i+1).padStart(2,"0")}</b></div>
+      </figure>`;
+  };
+  const fill=(id,from,to)=>{
+    const el=$("#"+id); if(!el) return;
+    let h=""; for(let i=from;i<=to;i++) h+=mk(i);
+    el.innerHTML=h;
+  };
+  fill("heroFotos",0,1);
+  fill("galeria",2,19);
+  fill("tiraFotos",20,22);
+
+  // só troca o placeholder pela foto se ela existir de verdade
+  $$(".ph img").forEach(img=>{
+    const src=img.dataset.src;
+    if(!src) return;
+    img.addEventListener("load",()=>{
+      const fig=img.closest(".ph"); fig.classList.remove("empty");
+      // marca a orientação real para o slot se adaptar à foto
+      const r=img.naturalWidth/img.naturalHeight;
+      fig.classList.add(r>1.15?"is-wide":r<0.87?"is-tall":"is-square");
+    });
+    img.addEventListener("error",()=>img.closest(".ph").classList.add("empty"));
+    img.src=src;
+  });
+  observe();
+  photosFollowCursor();
+}
+
+/* Fotos reagem ao cursor: inclinação 3D leve e brilho que segue o ponteiro. */
+function photosFollowCursor(){
+  if(matchMedia("(hover:none)").matches) return;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  $$(".galeria .ph, .tira .ph").forEach(fig=>{
+    if(!fig.querySelector(".glare")){
+      const g=document.createElement("div"); g.className="glare"; fig.appendChild(g);
+    }
+    fig.addEventListener("pointermove",e=>{
+      const b=fig.getBoundingClientRect();
+      const px=(e.clientX-b.left)/b.width, py=(e.clientY-b.top)/b.height;
+      fig.style.setProperty("--mx",(px*100).toFixed(1)+"%");
+      fig.style.setProperty("--my",(py*100).toFixed(1)+"%");
+      fig.style.setProperty("--ry",((px-.5)*9).toFixed(2)+"deg");
+      fig.style.setProperty("--rx",((.5-py)*9).toFixed(2)+"deg");
+      fig.classList.add("react");
+    });
+    fig.addEventListener("pointerleave",()=>{
+      fig.classList.remove("react");
+      fig.style.setProperty("--rx","0deg"); fig.style.setProperty("--ry","0deg");
+    });
+  });
+}
+
+/* leve paralaxe nas fotos da hero */
+(function heroParallax(){
+  if(matchMedia("(hover:none)").matches) return;
+  const box=$("#heroFotos"); if(!box) return;
+  let tx=0,ty=0,cx=0,cy=0;
+  addEventListener("mousemove",e=>{
+    tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5);
+  });
+  (function l(){
+    requestAnimationFrame(l);
+    cx+=(tx-cx)/16; cy+=(ty-cy)/16;
+    const ps=box.children;
+    for(let i=0;i<ps.length;i++){
+      const d=(i+1)*11, r=i?-6:4;
+      ps[i].style.transform=`translate(${-cx*d}px,${-cy*d}px) rotate(${r}deg)`;
+    }
+  })();
+})();
+
+/* BOOT */
+addEventListener("load",()=>setTimeout(()=>$("#pre").classList.add("done"),900));
+iniciarSincronia();
+renderPhotos();
+observe();
+</script>
+</body>
+</html>
