@@ -1,0 +1,50 @@
+# Netlify — deploy contínuo a partir deste repositório.
+#
+# Este repositório é o pacote npm @heitorimidio/sites-skills; o site do
+# aniversário vive em site/. Publicamos SÓ essa pasta para que bin/,
+# package.json e as skills não vão para o ar junto.
+#
+# Se preferir o Netlify Drop manual, arraste a pasta site/ — funciona igual.
+
+[build]
+  publish = "site"
+  # As funções do backend vivem em backend/ e sobem no mesmo deploy do site.
+  # Por isso o navegador chama /api/... na própria origem: sem CORS, sem
+  # domínio extra e sem credencial nenhuma no cliente.
+  functions = "backend/netlify/functions"
+  # O site é HTML estático e não precisa de build. Este comando existe só para
+  # instalar a dependência da função (@netlify/blobs): o package.json dela está
+  # em backend/, não na raiz, então a instalação automática da Netlify não o
+  # enxerga — e sem node_modules ali o esbuild não consegue empacotar a função.
+  command = "npm install --prefix backend --omit=dev --no-audit --no-fund"
+
+[functions]
+  node_bundler = "esbuild"
+
+# A API é servida pela função em backend/netlify/functions/api.mjs, que
+# declara os próprios caminhos:
+#
+#   export const config = { path: ["/api", "/api/*"] }
+#
+# NÃO acrescente aqui um redirect de /api/* para /.netlify/functions/api.
+# Ao declarar um path customizado, a função DEIXA de atender no endpoint
+# padrão /.netlify/functions/<nome> — um redirect para lá aponta para algo
+# que não existe mais, e com `force` ele ainda passa na frente do roteamento
+# por path. O resultado é 404 na API inteira.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# O vídeo e as fotos têm nome fixo e mudam pouco: cache longo.
+[[headers]]
+  for = "/assets/hero.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/fotos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
