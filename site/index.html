@@ -675,7 +675,10 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
         <p class="fine">HEITOR IMIDIO &middot; Goianira, GO. O QR não leva valor:
           você digita quanto quiser no app do banco.</p>
         <a class="btn wide" id="comprovanteTopo" href="#" style="margin-top:18px">
-          Enviar comprovante</a>
+          Enviar comprovante por e-mail</a>
+        <a class="btn wide ghost" id="comprovanteTopoZap" href="#" target="_blank"
+           rel="noopener" style="margin-top:10px;display:none">
+          Enviar comprovante pelo WhatsApp</a>
         <p class="fine">Manda o print para <b>himidio@nd.edu</b> — é só pra eu saber
           quem foi e poder agradecer.</p>
       </div>
@@ -840,6 +843,9 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
         </div>
         <a class="btn wide ghost" id="comprovanteModal" href="#" style="margin-top:12px">
           Enviar comprovante por e-mail</a>
+        <a class="btn wide ghost" id="comprovanteModalZap" href="#" target="_blank"
+           rel="noopener" style="margin-top:10px;display:none">
+          Enviar comprovante pelo WhatsApp</a>
       </details>
 
       <div class="step">Passo 2 — Avise que foi você<span></span></div>
@@ -1658,7 +1664,7 @@ function openModal(g){
   if(g.free) $("#freeVal").value=String(g.v);
   paintPix(g.v,g.code);
   $("#chaveModal").value = PIX.chave;
-  $("#comprovanteModal").href = linkComprovante(g.t,g.v,"");
+  ligarComprovante("#comprovanteModal","#comprovanteModalZap",g.t,g.v,"");
   $("#modal").querySelector(".socorro").open = false;
   $("#modal").classList.add("on"); document.body.classList.add("locked");
 }
@@ -1724,31 +1730,49 @@ const EMAIL_COMPROVANTE = "himidio@nd.edu";
 
 /* Se um dia quiser receber por WhatsApp tambem, basta por o numero aqui (so
    digitos, com o 55 na frente) e um segundo botao aparece sozinho. */
-const WHATSAPP = "";
+const WHATSAPP = "5562999147262";
+
+function textoComprovante(presente,valor,nome){
+  return [
+    "Oi, Heitor! Mandei o Pix" + (presente ? " do presente \"" + presente + "\"" : "") +
+      " e vou te mandar o comprovante aqui.",
+    presente ? `Presente: ${presente}` : null,
+    valor ? `Valor: ${brl(valor)}` : null,
+    nome ? `Meu nome: ${nome}` : null,
+  ].filter(l => l !== null).join("\n");
+}
 
 function linkComprovante(presente,valor,nome){
   const assunto = presente
     ? `Comprovante do Pix — ${presente}`
     : "Comprovante do Pix — presente do Heitor";
-  const linhas = [
-    "Oi, Heitor! Mandei o Pix e o comprovante está anexado aqui.",
-    "",
-    presente ? `Presente: ${presente}` : null,
-    valor ? `Valor: ${brl(valor)}` : null,
-    nome ? `Meu nome: ${nome}` : "Meu nome: ",
-    "",
-    "(é só anexar o print antes de enviar)"
-  ].filter(l => l !== null);
+  const corpo = textoComprovante(presente,valor,nome) +
+    "\n\n(é só anexar o print antes de enviar)";
   return "mailto:" + EMAIL_COMPROVANTE +
     "?subject=" + encodeURIComponent(assunto) +
-    "&body=" + encodeURIComponent(linhas.join("\n"));
+    "&body=" + encodeURIComponent(corpo);
+}
+
+/* wa.me só abre a conversa com o texto pronto — quem manda ainda precisa
+ * anexar o print a mão, o link não carrega imagem nenhuma. */
+function linkComprovanteZap(presente,valor,nome){
+  return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(textoComprovante(presente,valor,nome));
+}
+
+/* Liga os dois botoes (e-mail sempre; WhatsApp so se WHATSAPP estiver
+ * preenchido) para o mesmo presente/valor/nome. */
+function ligarComprovante(idEmail,idZap,presente,valor,nome){
+  const email=$(idEmail); if(email) email.href = linkComprovante(presente,valor,nome);
+  const zap=$(idZap); if(!zap) return;
+  if(WHATSAPP){ zap.href = linkComprovanteZap(presente,valor,nome); zap.style.display="block"; }
+  else zap.style.display="none";
 }
 
 function montarPixDireto(){
   const box=$("#qrDireto"); if(!box) return;
   const configurada = PIX.chave && !PIX.chave.startsWith("SUA-CHAVE");
   $("#chaveDireta").value = configurada ? PIX.chave : "chave Pix ainda não configurada";
-  $("#comprovanteTopo").href = linkComprovante(null,null,null);
+  ligarComprovante("#comprovanteTopo","#comprovanteTopoZap",null,null,null);
   if(!configurada){
     box.innerHTML='<div style="color:#0C2340;font-family:var(--f-mono);font-size:10px;'+
       'text-align:center;letter-spacing:.1em;padding:14px">QR APARECE QUANDO A<br>CHAVE FOR CADASTRADA</div>';
@@ -1760,14 +1784,6 @@ function montarPixDireto(){
     'font-size:10px;text-align:center;padding:14px">'+esc(e.message)+'</div>'; }
 }
 montarPixDireto();
-
-if(WHATSAPP){
-  const zap = document.createElement("a");
-  zap.className="btn wide ghost"; zap.style.marginTop="10px";
-  zap.textContent="Enviar comprovante pelo WhatsApp";
-  zap.href="https://wa.me/"+WHATSAPP;
-  $("#comprovanteTopo").after(zap);
-}
 
 $("#confirm").addEventListener("click",async()=>{
   if(!current) return;
