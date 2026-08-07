@@ -37,7 +37,7 @@ describe("rotas básicas", () => {
     const c = corpo(await get(handler, "/api/status"));
     assert.equal(c.ok, true);
     assert.equal(c.armazem, "memoria");
-    assert.equal(c.presentes, 20);
+    assert.equal(c.presentes, 23);
   });
 
   test("/api e /api/saude também respondem status", async () => {
@@ -69,7 +69,7 @@ describe("rotas básicas", () => {
   test("estado lista todos os presentes e nenhum reservado no início", async () => {
     const { handler } = novo();
     const c = corpo(await get(handler));
-    assert.equal(c.presentes.length, 20);
+    assert.equal(c.presentes.length, 23);
     assert.equal(c.totais.reservados, 0);
     assert.equal(c.totais.arrecadado, 0);
     assert.equal(c.rev, 0);
@@ -105,7 +105,7 @@ describe("versão do estado (rev)", () => {
     await post(handler, { presenteId: "g01", nome: "Ana" });
     const c = corpo(await get(handler, "/api/estado", { rev: "0" }));
     assert.equal(c.semMudanca, undefined);
-    assert.equal(c.presentes.length, 20);
+    assert.equal(c.presentes.length, 23);
     assert.equal(c.totais.reservados, 1);
   });
 });
@@ -132,23 +132,41 @@ describe("reserva", () => {
     assert.ok(c.pix.includes("1000.00"));
   });
 
-  test("o mesmo presente não pode ser reservado duas vezes", async () => {
+  test("o mesmo presente aceita mais de uma pessoa", async () => {
     const { handler } = novo();
-    assert.equal((await post(handler, { presenteId: "g05", nome: "Ana" })).status, 201);
+    const primeira = await post(handler, { presenteId: "g05", nome: "Ana" });
+    assert.equal(primeira.status, 201);
+    assert.equal(corpo(primeira).quantidade, 1);
+
     const segunda = await post(handler, { presenteId: "g05", nome: "Bruno" }, "2.2.2.2");
-    assert.equal(segunda.status, 409);
-    assert.equal(corpo(segunda).motivo, "ja_reservado");
-    assert.equal(corpo(segunda).conflito, true);
+    assert.equal(segunda.status, 201);
+    assert.equal(corpo(segunda).quantidade, 2);
+
+    // As duas contam: a lista tem as duas pessoas e o valor entra dobrado.
+    const c = corpo(await get(handler));
+    assert.deepEqual(c.reservas.g05.pessoas.map(p => p.nome), ["Ana", "Bruno"]);
+    assert.equal(c.reservas.g05.quantidade, 2);
+    assert.equal(c.totais.arrecadado, porId.get("g05").valor * 2);
+    // Mas o presente conta uma vez só na meta de "quantos já foram escolhidos".
+    assert.equal(c.totais.reservados, 1);
   });
 
-  test("reservas simultâneas do mesmo presente: só uma vence", async () => {
+  test("oito ao mesmo tempo no mesmo presente: todas entram, nenhuma se perde", async () => {
     const { handler } = novo();
     const respostas = await Promise.all(
       Array.from({ length: 8 }, (_, i) =>
         post(handler, { presenteId: "g07", nome: `P${i}` }, `10.0.0.${i}`))
     );
-    assert.equal(respostas.filter(r => r.status === 201).length, 1);
-    assert.equal(respostas.filter(r => r.status === 409).length, 7);
+    assert.equal(respostas.filter(r => r.status === 201).length, 8);
+
+    // O compare-and-set agora existe para isto: oito gravações concorrentes e
+    // as oito sobrevivem. Sem ele, a última leitura apagaria as anteriores.
+    const c = corpo(await get(handler));
+    assert.equal(c.reservas.g07.quantidade, 8);
+    assert.deepEqual(
+      c.reservas.g07.pessoas.map(p => p.nome).sort(),
+      Array.from({ length: 8 }, (_, i) => `P${i}`).sort()
+    );
   });
 
   test("presente inexistente devolve 404", async () => {
@@ -305,18 +323,21 @@ describe("concorrência no documento", () => {
     );
   });
 
-  test("esgotar as tentativas com o presente já tomado vira 409, não 500", async () => {
+  test("esgotar as tentativas vira 409 'tente de novo', não 500", async () => {
     const armazem = armazemMemoria();
     await armazem.gravar(CHAVE_ESTADO, {
-      rev: 1, reservas: { g01: { nome: "Quem chegou antes", valor: 50, ts: 1 } }, recados: [],
+      rev: 1, reservas: { g01: [{ nome: "Quem chegou antes", valor: 50, ts: 1 }] }, recados: [],
     }, {});
-    // A escrita nunca passa: só a releitura pode dizer o que aconteceu.
+    // A escrita nunca passa: nenhuma tentativa consegue gravar.
     armazem.gravar = async () => ({ ok: false });
 
     const handler = criarHandler({ armazem, pix: PIX });
     const r = await post(handler, { presenteId: "g01", nome: "Atrasada" });
     assert.equal(r.status, 409);
-    assert.equal(corpo(r).motivo, "ja_reservado");
+    // Ninguém é recusado por já existir alguém — isto é disputa de escrita.
+    assert.equal(corpo(r).motivo, undefined);
+    // E quem chegou antes continua lá, intacto.
+    assert.equal(corpo(await get(handler)).reservas.g01.pessoas.length, 1);
   });
 });
 
@@ -371,19 +392,21 @@ describe("Netlify Blobs (o armazenamento da produção)", () => {
     assert.ok(b.pedidos.every(p => p?.type === "json"));
   });
 
-  test("o mesmo presente não pode ser reservado duas vezes", async () => {
+  test("o mesmo presente aceita mais de uma pessoa", async () => {
     const { handler } = comBlobs();
     assert.equal((await post(handler, { presenteId: "g05", nome: "Ana" })).status, 201);
-    assert.equal((await post(handler, { presenteId: "g05", nome: "Bruno" }, "2.2.2.2")).status, 409);
+    assert.equal((await post(handler, { presenteId: "g05", nome: "Bruno" }, "2.2.2.2")).status, 201);
+    assert.equal(corpo(await get(handler)).reservas.g05.quantidade, 2);
   });
 
-  test("oito reservas simultâneas do mesmo presente: só uma vence", async () => {
+  test("oito reservas simultâneas: o onlyIfMatch impede que uma apague a outra", async () => {
     const { b, handler } = comBlobs();
     const rs = await Promise.all(Array.from({ length: 8 }, (_, i) =>
       post(handler, { presenteId: "g07", nome: `P${i}` }, `10.0.0.${i}`)));
-    assert.equal(rs.filter(r => r.status === 201).length, 1);
-    assert.equal(rs.filter(r => r.status === 409).length, 7);
+    assert.equal(rs.filter(r => r.status === 201).length, 8);
     assert.ok(b.colisoes() > 0, "a escrita condicional precisa ter barrado alguém");
+    // Barrado e REFEITO sobre o estado novo — por isso as oito estão lá.
+    assert.equal(corpo(await get(handler)).reservas.g07.quantidade, 8);
   });
 
   test("duas instâncias da função leem o mesmo estado", async () => {
@@ -413,19 +436,22 @@ describe("armazém em arquivo (servidor local)", () => {
       const c = corpo(await get(h2));
       assert.equal(c.totais.reservados, 1);
       assert.equal(c.recados[0].texto, "fica gravado");
-      assert.equal((await post(h2, { presenteId: "g12", nome: "Depois" }, "5.5.5.5")).status, 409);
+      const depois = await post(h2, { presenteId: "g12", nome: "Depois" }, "5.5.5.5");
+      assert.equal(depois.status, 201);
+      assert.equal(corpo(depois).quantidade, 2);
     } finally {
       await rm(pasta, { recursive: true, force: true });
     }
   });
 
-  test("reservas simultâneas no arquivo: só uma vence", async () => {
+  test("reservas simultâneas no arquivo: as seis entram", async () => {
     const pasta = await mkdtemp(join(tmpdir(), "aniversario-"));
     try {
       const handler = criarHandler({ armazem: armazemArquivo(pasta), pix: PIX });
       const rs = await Promise.all(Array.from({ length: 6 }, (_, i) =>
         post(handler, { presenteId: "g07", nome: `P${i}` }, `10.0.1.${i}`)));
-      assert.equal(rs.filter(r => r.status === 201).length, 1);
+      assert.equal(rs.filter(r => r.status === 201).length, 6);
+      assert.equal(corpo(await get(handler)).reservas.g07.quantidade, 6);
     } finally {
       await rm(pasta, { recursive: true, force: true });
     }
@@ -481,7 +507,7 @@ describe("armazém Firebase (fetch simulado)", () => {
   test("reserva grava e depois aparece no estado", async () => {
     const { fb, handler } = comFirebase();
     assert.equal((await post(handler, { presenteId: "g02", nome: "Tia", recado: "oi" })).status, 201);
-    assert.equal(fb.dados.get("estado").valor.reservas.g02.valor, 60);
+    assert.equal(fb.dados.get("estado").valor.reservas.g02[0].valor, 60);
 
     const c = corpo(await get(handler));
     assert.equal(c.armazem, "firebase");

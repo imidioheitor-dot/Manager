@@ -236,8 +236,10 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
   transform-style:preserve-3d;will-change:transform}
 .pass:hover{border-color:rgba(201,151,0,.6);
   box-shadow:0 22px 60px rgba(0,0,0,.42),0 0 0 1px rgba(201,151,0,.14)}
-.pass.taken{opacity:.46}
-.pass.taken .buy{pointer-events:none}
+/* Um presente ja escolhido NAO sai da lista: continua clicavel e com o mesmo
+   destaque. A borda dourada e o selo dizem que alguem ja deu — e o convite
+   para dar tambem continua de pe. */
+.pass.taken{border-color:rgba(201,151,0,.42)}
 /* perforated tear line — the boarding-pass signature */
 .pass .tear{position:relative;height:1px;background:none;
   border-top:1px dashed rgba(125,145,171,.42);margin:0 0}
@@ -268,7 +270,7 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
   font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
   transition:background .4s var(--ease),color .4s var(--ease);white-space:nowrap}
 .buy:hover{background:var(--gold);color:var(--navy-deep)}
-.badge{position:absolute;top:16px;right:16px;background:var(--red);color:#fff;
+.badge{position:absolute;top:16px;right:16px;background:var(--gold);color:var(--navy-deep);
   font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
   padding:5px 11px;border-radius:999px;display:none;z-index:3}
 .pass.taken .badge{display:block}
@@ -373,6 +375,19 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
 @media(max-width:1100px){.hero-fotos{display:none}}
 
 /* tira do rodapé */
+.pix-direto{display:grid;grid-template-columns:220px 1fr;gap:34px;align-items:start;
+  border:1px solid rgba(125,145,171,.22);border-radius:16px;padding:30px;
+  background:rgba(255,255,255,.02)}
+.pix-qr{width:220px;height:220px;background:#fff;border-radius:12px;padding:12px;
+  display:grid;place-items:center}
+.pix-qr svg{width:100%;height:100%;display:block}
+.pix-info label{display:block;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin:0 0 9px}
+@media(max-width:760px){
+  .pix-direto{grid-template-columns:1fr;gap:24px;padding:22px;justify-items:center}
+  .pix-qr{width:min(220px,70vw);height:min(220px,70vw)}
+  .pix-info{width:100%}
+}
 .tira{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
   max-width:var(--maxw);margin:0 auto 56px}
 .tira .ph{aspect-ratio:1/1}
@@ -500,6 +515,14 @@ input[type=text],textarea{width:100%;background:var(--navy-deep);
   transition:border-color .3s}
 input[type=text]:focus,textarea:focus{outline:none;border-color:var(--gold)}
 textarea{resize:vertical;min-height:96px}
+.socorro{border:1px solid rgba(125,145,171,.24);border-radius:12px;padding:0 16px;
+  margin:18px 0 4px;background:rgba(255,255,255,.02)}
+.socorro summary{cursor:pointer;padding:14px 0;font-family:var(--f-mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold);list-style:none}
+.socorro summary::-webkit-details-marker{display:none}
+.socorro summary::before{content:"+ ";font-weight:700}
+.socorro[open] summary::before{content:"\2212 "}
+.socorro[open]{padding-bottom:16px}
 .fine{font-size:12px;color:var(--slate);line-height:1.6;margin:14px 0 0}
 .ok{text-align:center;padding:26px 0}
 .ok .ico{width:62px;height:62px;border:1px solid var(--gold);border-radius:50%;
@@ -566,7 +589,7 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
     <a href="#presentes">Presentes</a>
     <a href="#desafios">Desafios</a>
     <a href="#mural">Mural</a>
-    <a href="#presentes" class="pill">Mandar Pix</a>
+    <a href="#pix" class="pill">Mandar Pix</a>
   </nav>
   <button id="burger" aria-label="Abrir menu"><i></i><i></i></button>
 </header>
@@ -620,6 +643,44 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
         <p class="lede">Muitas memórias e um incrível ensino médio.</p>
         <div class="mono" style="margin-top:30px;color:var(--gold);opacity:.8">
           Role para atravessar ↓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIX DIRETO — vem cedo de proposito: quem so quer mandar o dinheiro nao
+     precisa atravessar o site inteiro. As tres fotos abertam a secao. -->
+<section class="band" id="pix">
+  <div class="wrap">
+    <div class="tira rv" id="tiraFotos"></div>
+
+    <div class="sec-head rv" style="margin-top:56px">
+      <div>
+        <div class="tag mono"><span></span>Direto ao ponto</div>
+        <h2>Prefere só mandar o Pix?</h2>
+      </div>
+      <p>Sem escolher presente e sem formulário: manda o valor que quiser para a
+         chave abaixo e me envia o comprovante. Se preferir escolher um presente
+         da lista — e deixar um recado no mural — <a href="#presentes">está logo ali</a>.</p>
+    </div>
+
+    <div class="pix-direto rv">
+      <div class="pix-qr" id="qrDireto"></div>
+      <div class="pix-info">
+        <label for="chaveDireta">Chave Pix</label>
+        <div class="copy-row">
+          <input type="text" id="chaveDireta" readonly value="himidio@nd.edu">
+          <button class="btn" id="copyChave">Copiar</button>
+        </div>
+        <p class="fine">HEITOR IMIDIO &middot; Goianira, GO. O QR não leva valor:
+          você digita quanto quiser no app do banco.</p>
+        <a class="btn wide" id="comprovanteTopo" href="#" style="margin-top:18px">
+          Enviar comprovante por e-mail</a>
+        <a class="btn wide ghost" id="comprovanteTopoZap" href="#" target="_blank"
+           rel="noopener" style="margin-top:10px;display:none">
+          Enviar comprovante pelo WhatsApp</a>
+        <p class="fine">Manda o print para <b>himidio@nd.edu</b> — é só pra eu saber
+          quem foi e poder agradecer.</p>
       </div>
     </div>
   </div>
@@ -731,7 +792,6 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
 </section>
 
 <footer>
-  <div class="tira rv" id="tiraFotos"></div>
   <div class="f-grid">
     <h3>Obrigado por<br>fazer parte.</h3>
     <div class="f-meta">
@@ -773,6 +833,21 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
       </div>
       <p class="fine" id="pixInfo"></p>
 
+      <details class="socorro">
+        <summary>O QR Code ou o código não funcionaram?</summary>
+        <p class="fine" style="margin-top:0">Manda o Pix na mão para a chave abaixo,
+          com o valor do presente, e me envia o comprovante.</p>
+        <div class="copy-row">
+          <input type="text" id="chaveModal" readonly value="himidio@nd.edu">
+          <button class="btn" id="copyChaveModal" type="button">Copiar</button>
+        </div>
+        <a class="btn wide ghost" id="comprovanteModal" href="#" style="margin-top:12px">
+          Enviar comprovante por e-mail</a>
+        <a class="btn wide ghost" id="comprovanteModalZap" href="#" target="_blank"
+           rel="noopener" style="margin-top:10px;display:none">
+          Enviar comprovante pelo WhatsApp</a>
+      </details>
+
       <div class="step">Passo 2 — Avise que foi você<span></span></div>
       <label for="nome">Seu nome</label>
       <input type="text" id="nome" placeholder="Como você quer aparecer no mural"
@@ -781,9 +856,9 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
         letter-spacing:0;font-style:normal">(opcional)</em></label>
       <textarea id="msg" placeholder="Escreve aí…" maxlength="400"></textarea>
       <button class="btn wide" id="confirm">Já paguei — reservar presente</button>
-      <p class="fine">Isso marca o presente como escolhido para as outras pessoas e
-        publica seu recado no mural. A confirmação é na confiança — o Heitor confere
-        pelo extrato depois.</p>
+      <p class="fine">Isso publica seu recado no mural e marca o presente como
+        escolhido — sem tirá-lo da lista: se mais alguém quiser dar o mesmo, pode.
+        A confirmação é na confiança — o Heitor confere pelo extrato depois.</p>
     </div>
     <div class="sheet-b" id="mDone" style="display:none">
       <div class="ok">
@@ -1186,7 +1261,15 @@ const GIFTS = [
   {id:"g19",code:"ND-119",t:"Um kit de material escolar",v:150,
    n:"Caderno, caneta, calculadora. O começo de tudo."},
   {id:"g20",code:"ND-120",t:"Bagagem extra na volta, pra trazer presentes",v:700,
-   n:"Volto carregado. A mala de ida é minha, a de volta é de vocês."}
+   n:"Volto carregado. A mala de ida é minha, a de volta é de vocês."},
+  {id:"g21",code:"ND-121",t:"Computador, pra fazer todas as minhas contas durante quatro anos da minha vida",v:4000,
+   n:"Quatro anos de cálculo, termodinâmica e mecânica dos fluidos passam por ele.",
+   // Este presente tem o seu proprio agradecimento — nao entra no rodizio.
+   perk:"Camiseta oficial de Notre Dame assinada por todos os meus colegas de quarto e professores"},
+  {id:"g22",code:"ND-122",t:"Camisa oficial de Notre Dame, pra torcer com estilo",v:200,
+   n:"Fighting Irish no peito. Sábado de jogo pede uniforme."},
+  {id:"g23",code:"ND-123",t:"Aliança de compromisso nova nova",v:300,
+   n:"A antiga quebrou e a namorada quer que eu compre antes de ir. Se não, sou esganado. Socorro!!"}
 ];
 
 const CHALLENGES = [
@@ -1200,11 +1283,20 @@ const CHALLENGES = [
    t:"Gravo um vídeo de agradecimento na frente do Golden Dome, falando o nome de cada um que participou."}
 ];
 
-function lembrancinha(v){
-  if(v>=500) return "Camiseta oficial de Notre Dame + vídeo de agradecimento gravado no campus";
-  if(v>=300) return "Caneca oficial de Notre Dame trazida na mala de volta";
-  if(v>=150) return "Cartão-postal escrito à mão + polaroid do campus";
-  return "Cartão-postal de South Bend escrito à mão";
+/* O que cada pessoa recebe de volta. A lista roda na ordem dos presentes e
+   recomeca quando acaba, entao os agradecimentos se alternam pela grade em vez
+   de repetir em bloco. Um presente pode trazer o proprio `perk` e sair do
+   rodizio — e o caso do computador. */
+const PERKS = [
+  "Carta de agradecimento escrita à mão",
+  "Vídeo de agradecimento em frente ao Golden Dome",
+  "Lembrancinha de Notre Dame",
+  "Um mico leve de sua escolha",
+  "50 flexões (gravo vídeo pra provar)",
+  "Lembrancinha dos Estados Unidos"
+];
+function lembrancinha(g,i){
+  return g.perk || PERKS[i % PERKS.length];
 }
 
 /* ==================================================================
@@ -1227,7 +1319,9 @@ function pixPayload(valor,txid){
   const gui = emv("00","br.gov.bcb.pix") + emv("01",PIX.chave);
   let p = emv("00","01") + emv("01","11") + emv("26",gui)
         + emv("52","0000") + emv("53","986")
-        + emv("54",Number(valor).toFixed(2))
+        // Sem valor, o campo 54 simplesmente nao existe e o app do banco pede
+        // a quantia. E assim que o QR "mande quanto quiser" funciona.
+        + (Number(valor) > 0 ? emv("54",Number(valor).toFixed(2)) : "")
         + emv("58","BR")
         + emv("59",clean(PIX.nome,25) || "RECEBEDOR")
         + emv("60",clean(PIX.cidade,15) || "BRASIL")
@@ -1376,6 +1470,16 @@ async function iniciarSincronia(){
  * O navegador manda apenas o id do presente: quem decide o valor e monta o
  * codigo Pix e o servidor. Retorna { ok, erro?, conflito?, pix?, local? } —
  * nunca lanca, para o chamador poder mostrar a mensagem certa. */
+/* Registra a contribuicao neste aparelho na hora, antes da proxima sincronia.
+ * Se ja havia gente no presente, a contagem SOBE — sobrescrever apagaria quem
+ * chegou antes da tela de quem acabou de dar. */
+function somarReserva(id,r){
+  const antes = STATE.taken[id];
+  const q = r.quantidade != null ? r.quantidade : (antes ? quantos(antes)+1 : 1);
+  const pessoas = [...((antes && antes.pessoas) || []), { nome:r.who, ts:r.ts, valor:r.v }];
+  STATE.taken[id] = { ...r, quantidade:q, pessoas };
+}
+
 async function reserve(gift,who,text){
   const corpo = {
     presenteId: gift.free ? "livre" : gift.id,
@@ -1392,7 +1496,7 @@ async function reserve(gift,who,text){
     if(e.status===0 || e.status===503){
       // Sem servidor alcancavel. Registra so neste aparelho para o site nao
       // travar — e o chamador avisa que ficou so aqui.
-      STATE.taken[gift.id]={who:who,ts:Date.now(),v:gift.v};
+      somarReserva(gift.id,{who:who,ts:Date.now(),v:gift.v});
       if(text) STATE.notes.unshift({who:who,text:text,gift:gift.t,ts:Date.now()});
       saveLocal(); renderAll(); renderWall();
       return { ok:true, local:true };
@@ -1402,11 +1506,11 @@ async function reserve(gift,who,text){
 
   // Aparece na hora para quem reservou; a sincronia logo em seguida traz
   // tambem o que os outros aparelhos fizeram nesse meio-tempo.
-  STATE.taken[gift.id]={who:who,ts:Date.now(),v:d.valor};
+  somarReserva(gift.id,{who:who,ts:Date.now(),v:d.valor,quantidade:d.quantidade});
   if(text) STATE.notes.unshift({who:who,text:text,gift:gift.t,ts:Date.now()});
   renderAll(); renderWall();
   sincronizar();
-  return { ok:true, pix:d.pix, valor:d.valor };
+  return { ok:true, pix:d.pix, valor:d.valor, quantidade:d.quantidade };
 }
 
 /* ==================================================================
@@ -1417,12 +1521,26 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>
   ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+/* Quantas pessoas ja deram este presente. O backend manda `quantidade`; um
+   estado antigo (ou o registro otimista feito offline) pode nao ter — dai
+   vale 1, que e o que "existe uma reserva" sempre significou. */
+const quantos = tk => Math.max(1, Number(tk?.quantidade) || 1);
+
+const selo = tk => quantos(tk) > 1 ? quantos(tk) + " pessoas" : "Reservado";
+
+function quemDeu(tk){
+  const n = quantos(tk);
+  const nomes = (tk.pessoas || []).map(p => p.nome).filter(Boolean);
+  if(n > 1) return n + " pessoas já deram esse — pode dar também";
+  return "Presente de " + (nomes[0] || tk.who || "alguém");
+}
+
 function renderGrid(){
   $("#grid").innerHTML = GIFTS.map((g,i)=>{
     const tk = STATE.taken[g.id];
     return `<article class="pass rv ${tk?"taken":""}" data-id="${g.id}" data-obj="${g.obj}"
               style="transition-delay:${(i%3)*70}ms">
-      <div class="badge">Reservado</div>
+      <div class="badge">${tk ? esc(selo(tk)) : ""}</div>
       <div class="pass-top">
         <div class="route">GYN <b>→</b> SBN</div>
         <div class="code">${g.code}</div>
@@ -1431,12 +1549,12 @@ function renderGrid(){
       <div class="pass-body">
         <h3>${esc(g.t)}</h3>
         <p class="gift-note">${esc(g.n)}</p>
-        <p class="lembra">↩<em>Você recebe: ${esc(lembrancinha(g.v))}</em></p>
+        <p class="lembra">↩<em>Você recebe: ${esc(lembrancinha(g,i))}</em></p>
         <div class="pass-foot">
           <div class="price"><small>R$</small>${g.v.toLocaleString("pt-BR")}</div>
-          <button class="buy">${tk?"Escolhido":"Presentear"}</button>
+          <button class="buy">${tk?"Dar também":"Presentear"}</button>
         </div>
-        <div class="by">Presente de ${tk?esc(tk.who||"alguém"):""}</div>
+        <div class="by">${tk ? esc(quemDeu(tk)) : ""}</div>
       </div>
     </article>`;
   }).join("") + `<article class="pass free wide rv" data-free="1">
@@ -1460,8 +1578,11 @@ function renderGrid(){
 
 function renderTotals(){
   const ids=Object.keys(STATE.taken||{});
+  // Duas pessoas no mesmo presente somam duas vezes: o que se arrecada e a
+  // soma das contribuicoes, nao a dos presentes escolhidos.
   const total=ids.reduce((s,k)=>{
-    const g=GIFTS.find(x=>x.id===k); return s+(g?g.v:(STATE.taken[k].v||0));
+    const g=GIFTS.find(x=>x.id===k);
+    return s+(g?g.v:(STATE.taken[k].v||0))*quantos(STATE.taken[k]);
   },0);
   const max=GIFTS.reduce((s,g)=>s+g.v,0);
   $("#raised").textContent=brl(total);
@@ -1542,6 +1663,9 @@ function openModal(g){
   $("#freeWrap").style.display = g.free ? "block" : "none";
   if(g.free) $("#freeVal").value=String(g.v);
   paintPix(g.v,g.code);
+  $("#chaveModal").value = PIX.chave;
+  ligarComprovante("#comprovanteModal","#comprovanteModalZap",g.t,g.v,"");
+  $("#modal").querySelector(".socorro").open = false;
   $("#modal").classList.add("on"); document.body.classList.add("locked");
 }
 function closeModal(){
@@ -1557,9 +1681,8 @@ function bindCards(){
     const g=free
       ? {id:"free",code:"ND-000",t:"Presente de valor livre",v:150,free:true}
       : GIFTS.find(x=>x.id===card.dataset.id);
-    card.querySelector(".buy").addEventListener("click",()=>{
-      if(free || !STATE.taken[g.id]) openModal(g);
-    });
+    // Sem condicao: um presente ja escolhido continua aceitando gente.
+    card.querySelector(".buy").addEventListener("click",()=>openModal(g));
     // subtle 3D tilt
     card.addEventListener("mousemove",e=>{
       if(window.innerWidth<900) return;
@@ -1587,11 +1710,80 @@ $("#mClose").addEventListener("click",closeModal);
 $("#modal").addEventListener("click",e=>{ if(e.target.id==="modal") closeModal(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
 
-$("#copyBtn").addEventListener("click",()=>{
-  const v=$("#brcode").value;
-  navigator.clipboard?.writeText(v).then(()=>toast("Código Pix copiado"))
-    .catch(()=>{ $("#brcode").select(); document.execCommand("copy"); toast("Copiado"); });
-});
+function copiarDe(campo,aviso){
+  const el=$(campo); if(!el) return;
+  navigator.clipboard?.writeText(el.value).then(()=>toast(aviso))
+    .catch(()=>{ el.select(); document.execCommand("copy"); toast("Copiado"); });
+}
+$("#copyBtn").addEventListener("click",()=>copiarDe("#brcode","Código Pix copiado"));
+$("#copyChave").addEventListener("click",()=>copiarDe("#chaveDireta","Chave Pix copiada"));
+$("#copyChaveModal").addEventListener("click",()=>copiarDe("#chaveModal","Chave Pix copiada"));
+
+/* ==================================================================
+   MANDAR O PIX NA MAO — plano B quando o QR ou o copia-e-cola falham
+
+   Nenhuma dessas coisas depende do backend: sao a chave, um QR sem valor e um
+   e-mail ja escrito. Se a API estiver fora do ar, isto aqui continua de pe —
+   que e justamente quando alguem mais precisa.
+   ================================================================== */
+const EMAIL_COMPROVANTE = "himidio@nd.edu";
+
+/* Se um dia quiser receber por WhatsApp tambem, basta por o numero aqui (so
+   digitos, com o 55 na frente) e um segundo botao aparece sozinho. */
+const WHATSAPP = "5562999147262";
+
+function textoComprovante(presente,valor,nome){
+  return [
+    "Oi, Heitor! Mandei o Pix" + (presente ? " do presente \"" + presente + "\"" : "") +
+      " e vou te mandar o comprovante aqui.",
+    presente ? `Presente: ${presente}` : null,
+    valor ? `Valor: ${brl(valor)}` : null,
+    nome ? `Meu nome: ${nome}` : null,
+  ].filter(l => l !== null).join("\n");
+}
+
+function linkComprovante(presente,valor,nome){
+  const assunto = presente
+    ? `Comprovante do Pix — ${presente}`
+    : "Comprovante do Pix — presente do Heitor";
+  const corpo = textoComprovante(presente,valor,nome) +
+    "\n\n(é só anexar o print antes de enviar)";
+  return "mailto:" + EMAIL_COMPROVANTE +
+    "?subject=" + encodeURIComponent(assunto) +
+    "&body=" + encodeURIComponent(corpo);
+}
+
+/* wa.me só abre a conversa com o texto pronto — quem manda ainda precisa
+ * anexar o print a mão, o link não carrega imagem nenhuma. */
+function linkComprovanteZap(presente,valor,nome){
+  return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(textoComprovante(presente,valor,nome));
+}
+
+/* Liga os dois botoes (e-mail sempre; WhatsApp so se WHATSAPP estiver
+ * preenchido) para o mesmo presente/valor/nome. */
+function ligarComprovante(idEmail,idZap,presente,valor,nome){
+  const email=$(idEmail); if(email) email.href = linkComprovante(presente,valor,nome);
+  const zap=$(idZap); if(!zap) return;
+  if(WHATSAPP){ zap.href = linkComprovanteZap(presente,valor,nome); zap.style.display="block"; }
+  else zap.style.display="none";
+}
+
+function montarPixDireto(){
+  const box=$("#qrDireto"); if(!box) return;
+  const configurada = PIX.chave && !PIX.chave.startsWith("SUA-CHAVE");
+  $("#chaveDireta").value = configurada ? PIX.chave : "chave Pix ainda não configurada";
+  ligarComprovante("#comprovanteTopo","#comprovanteTopoZap",null,null,null);
+  if(!configurada){
+    box.innerHTML='<div style="color:#0C2340;font-family:var(--f-mono);font-size:10px;'+
+      'text-align:center;letter-spacing:.1em;padding:14px">QR APARECE QUANDO A<br>CHAVE FOR CADASTRADA</div>';
+    return;
+  }
+  // Sem valor: quem manda escolhe quanto.
+  try{ box.innerHTML=QR.svg(pixPayload(0,"LIVRE")); }
+  catch(e){ box.innerHTML='<div style="color:#B3122B;font-family:var(--f-mono);'+
+    'font-size:10px;text-align:center;padding:14px">'+esc(e.message)+'</div>'; }
+}
+montarPixDireto();
 
 $("#confirm").addEventListener("click",async()=>{
   if(!current) return;
@@ -1612,10 +1804,10 @@ $("#confirm").addEventListener("click",async()=>{
 
   if(!res.ok){
     if(res.conflito){
-      // O pagamento ja foi feito antes deste clique. O dinheiro chegou; o que
-      // se perdeu foi a marcacao deste presente. Ser honesto sobre isso.
-      toast("Alguem reservou esse presente primeiro. Seu Pix chegou do mesmo "+
-            "jeito — fala com o Heitor pra escolherem outro.");
+      // Ninguem mais e recusado por chegar depois: um 409 hoje so acontece
+      // quando muita gente grava no mesmo instante. E so tentar de novo.
+      toast("Muita gente registrando ao mesmo tempo. Clica de novo em um "+
+            "segundo — seu Pix nao se perdeu.");
     }else{
       toast(res.erro || "Nao consegui registrar. Tenta de novo.");
     }
@@ -1626,8 +1818,10 @@ $("#confirm").addEventListener("click",async()=>{
   $("#doneMsg").textContent = res.local
     ? "Obrigado, "+who+". Anotei aqui neste aparelho — quando o site estiver "+
       "no ar, seu recado aparece pra todo mundo."
-    : "Obrigado, "+who+". Seu recado já está no mural e o "+
-      "presente saiu da lista pra todo mundo.";
+    : "Obrigado, "+who+". Seu recado já está no mural e esse presente "+
+      (res.quantidade>1
+        ? "agora tem "+res.quantidade+" pessoas — você entrou junto."
+        : "aparece como escolhido pra todo mundo.");
   $("#mBody").style.display="none";
   $("#mDone").style.display="block";
   $(".sheet").scrollTop=0;
